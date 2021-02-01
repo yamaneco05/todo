@@ -59,8 +59,6 @@ insert into todos () values ();
 INSERT INTO todos (id) SELECT 0 FROM todos; 
 //3回繰り返し4行になった
 
-select * from todos;
-
 UPDATE todos SET 
 created_at = ADDTIME(CONCAT_WS(' ','2020-01-01' + INTERVAL RAND() * 180 DAY, '00:00:00'), SEC_TO_TIME(FLOOR(0 + (RAND() * 86401)))),
 deadline_at = ADDTIME(CONCAT_WS(' ','2020-01-01' + INTERVAL RAND() * 180 DAY, '00:00:00'), SEC_TO_TIME(FLOOR(0 + (RAND() * 86401)))),
