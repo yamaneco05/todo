@@ -1,4 +1,5 @@
 <?php
+require_once '/var/www/html/app/config/database.php';
 
 class Todo {
 
@@ -6,7 +7,7 @@ class Todo {
 
         try {
             $db = new PDO(DSH, USER, PASSWORD);
-            $sql = "SELECT * FROM todos";
+            $sql = "SELECT * FROM todos WHERE user_id = 34";
           
             $stmt = $db->prepare($sql);
             $stmt->execute();

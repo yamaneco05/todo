@@ -1,8 +1,5 @@
-<?php
-require_once '/var/www/html/app/config/database.php';
-require_once '/var/www/html/app/model/Todo.php';
-$todos = Todo::findAll();
-
+<?php require_once '/var/www/html/app/controller/TodoController.php'; 
+$todos = TodoController::index();
 ?>
 
 <!DOCTYPE html>
@@ -15,13 +12,13 @@ $todos = Todo::findAll();
 <body>
   <h1>TODOリスト</h1>
 
-<?php foreach($todos as $todo):?>
+<?php foreach($todos as $todo): ?>
 
   <ul>
     <li><?php echo $todo['id']; ?></li>
     <li><?php echo $todo['title']; ?></li>
     <li><?php echo $todo['deadline_at']; ?></li>
-    <li><?php echo $todo['detail'];?></li>
+    <li><?php echo $todo['detail']; ?></li>
   </ul>
 
 <?php endforeach; ?>

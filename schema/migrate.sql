@@ -69,3 +69,4 @@ UPDATE todos SET deleted_at = ADDTIME(CONCAT_WS(' ','2020-01-01' + INTERVAL RAND
 
 UPDATE todos SET title = CONCAT('task', id);
 UPDATE todos SET detail = CONCAT(title, title, title, title, title, title, title);
+UPDATE todos SET user_id = CEIL(RAND() * 43);
