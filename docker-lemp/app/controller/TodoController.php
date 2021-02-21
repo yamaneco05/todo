@@ -9,6 +9,13 @@ class TodoController {
 
         return $todos;
     }
+
+    public function detail($todoId) {
+
+        $todo_personals = Todo::findById($todoId);
+
+        return $todo_personals;
+    }
 }
 
 ?>

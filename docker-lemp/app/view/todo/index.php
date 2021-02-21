@@ -12,16 +12,23 @@ $todos = TodoController::index();
 <body>
   <h1>TODOリスト</h1>
 
-<?php foreach($todos as $todo): ?>
+  <?php foreach($todos as $todo): ?>
 
-  <ul>
-    <li><?php echo $todo['id']; ?></li>
-    <li><?php echo $todo['title']; ?></li>
-    <li><?php echo $todo['deadline_at']; ?></li>
-    <li><?php echo $todo['detail']; ?></li>
-  </ul>
+    <ul>
+      <li><?php echo $todo['id']; ?></li>
 
-<?php endforeach; ?>
+      <li><form action="" method="get" >
+      <input type="hidden" name="todo_id" value="<?php echo $todo['id']; ?>">
+      <a href="/detail.php?todo_id=<?php echo $todo['id']; ?>">
+      <?php echo $todo['title']; ?></a></li>
+      </form></li>
+
+      <li><?php echo $todo['deadline_at'] . "までにやる"; ?></li>
+      <li><?php echo $todo['detail']; ?></li>
+    </ul>
+
+  <?php endforeach; ?>
+  
 </body>
 
 </html>
