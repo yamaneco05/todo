@@ -1,5 +1,5 @@
-<?php require_once '/var/www/html/app/controller/TodoController.php'; 
-$todos = TodoController::index();
+<?php 
+require_once '/var/www/html/app/controller/TodoController.php'; 
 ?>
 
 <!DOCTYPE html>

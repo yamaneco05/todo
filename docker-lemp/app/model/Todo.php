@@ -25,16 +25,16 @@ class Todo {
 
         try {
             $db = new PDO(DSH, USER, PASSWORD);
-            $sql2 = "SELECT * FROM todos WHERE id = $todoId";
-            $stmt2 = $db->prepare($sql2);
-            $stmt2->execute();
-            $todo_personals = $stmt2->fetchAll(PDO::FETCH_ASSOC);
+            $sql = "SELECT * FROM todos WHERE id = $todoId";
+            $stmt = $db->prepare($sql);
+            $stmt->execute();
+            $todo = $stmt->fetch(PDO::FETCH_ASSOC);
           
         } catch (PDOException $e) {
             print ("Error:" .$e->getMessage());
             exit;
         }
-        return $todo_personals;
+        return $todo;
     }
 }
 
