@@ -1,5 +1,7 @@
 <?php 
 require_once '/var/www/html/app/controller/TodoController.php'; 
+$controller = new TodoController;
+$todo = $controller->detail();
 ?>
 
 <!DOCTYPE html>

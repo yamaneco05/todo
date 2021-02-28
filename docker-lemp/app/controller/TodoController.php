@@ -1,6 +1,5 @@
 <?php
 require_once '/var/www/html/app/model/Todo.php';
-$todoId = $_GET['todo_id']; 
 
 class TodoController {
 
@@ -11,15 +10,17 @@ class TodoController {
         return $todos;
     }
 
-    public function detail($todoId) {
+    public function detail() {
+        //GETパラメータ取得
+        $todoId = $_GET['todo_id'];
+        
+        //'todo_id'に該当するレコードの存在確認
+        $todoId = Todo::isExistById($todoId);
 
         $todo = Todo::findById($todoId);
 
         return $todo;
     }
 }
-
-$todos = TodoController::index();
-$todo = Todo::findById($todoId);
 
 ?>
