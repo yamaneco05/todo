@@ -18,7 +18,11 @@ class TodoController {
         $todoId = Todo::isExistById($todoId);
 
         $todo = Todo::findById($todoId);
-
+        
+        if ( $todoId == false ) {
+            header( "Location: ./404.php" );
+            return;
+        }
         return $todo;
     }
 }
