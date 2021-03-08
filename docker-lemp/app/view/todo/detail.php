@@ -23,6 +23,8 @@ $todo = $controller->detail();
       <li><?php echo "詳細:"; ?><br>
       <?php echo $todo['detail']; ?></li>
     </ul>
+  
+    <a href="/index.php">View My Task</a>
     
 </body>
 

@@ -15,15 +15,30 @@ class TodoController {
         $todoId = $_GET['todo_id'];
         
         //'todo_id'に該当するレコードの存在確認
-        $todoId = Todo::isExistById($todoId);
-
-        $todo = Todo::findById($todoId);
-        
-        if ( $todoId == false ) {
+        $isExist = Todo::isExistById($todoId);
+        if ( $isExist === false ) {
             header( "Location: ./404.php" );
             return;
         }
+        $todo = Todo::findById($todoId);
+        
         return $todo;
+    }
+
+    public function new() {
+        //POSTパラメータ取得
+        $title = $_POST['title'];
+        $detail = $_POST['detail'];
+        $deadline_at = $_POST['deadline_at'];
+
+        //'todo_id'に該当するレコードの存在確認
+        $newTodo = Todo::registerNewTodo($title, $detail, $deadline_at);
+        if ( $newTodo === false ) {
+            header( "Location: new.php" );
+            return;
+        }        
+        return $todo;
+
     }
 }
 

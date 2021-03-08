@@ -26,6 +26,8 @@ $todos = TodoController::index();
     </ul>
 
   <?php endforeach; ?>
+
+  <a href="/new.php">Create New Task</a>
   
 </body>
 

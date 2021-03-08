@@ -70,3 +70,8 @@ UPDATE todos SET deleted_at = ADDTIME(CONCAT_WS(' ','2020-01-01' + INTERVAL RAND
 UPDATE todos SET title = CONCAT('task', id);
 UPDATE todos SET detail = CONCAT(title, title, title, title, title, title, title);
 UPDATE todos SET user_id = CEIL(RAND() * 43);
+
+show variables like 'character%'; //文字コードを表示
+//文字コードをlatin1からutf8へ変更
+alter table todos convert to character set utf8;
+alter table users convert to character set utf8;
