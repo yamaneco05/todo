@@ -6,13 +6,13 @@ var_dump($_POST);
 $page_flag = 0;
 if ( !empty($_POST['btn_confirm']) ) {
 
-  $page_flag = 1;
+	$page_flag = 1;
 }
 if( !empty($_POST['btn_submit']) ) {
 
 	$page_flag = 2;
-  $controller = new TodoController;
-  $params = $controller->new();
+  	$controller = new TodoController;
+  	$params = $controller->new();
 
 }
 ?>
@@ -120,16 +120,25 @@ textarea[name=detail] {
 		    <p><?php echo $_POST['detail']; ?></p>
 	    </div>
 
+	    <div class="element_wrap">
+		    <label>期限:</label>
+		    <p><?php echo $_POST['deadline_at']; ?></p>
+	    </div>
+
 	    <input type="submit" name="btn_back" value="戻る">
 	    <input type="submit" name="btn_submit" value="送信">
 	    <input type="hidden" name="title" value="<?php echo $_POST['title']; ?>">
 	    <input type="hidden" name="detail" value="<?php echo $_POST['detail']; ?>">
-    </form>
+		<input type="hidden" name="deadline_at" value="<?php echo $_POST['deadline_at']; ?>">
+
+	</form>
 
   <?php elseif( $page_flag === 2 ): ?>
 
-    <?php echo "<p>title: " ,$title , "</p>"; ?>
+    <?php echo "<p>title: " . $params['title'] . "</p>"; ?>
     <?php echo "<p>detail: " . $params['detail'] . "</p>"; ?>
+	<?php echo "<p>deadline_at: " . $params['deadline_at'] . "</p>"; ?>
+
     <?php echo '<p>で登録しました。</p>'; ?>
 
     <a href="/index.php">View My Task</a>

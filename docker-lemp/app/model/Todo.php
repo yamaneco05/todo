@@ -51,19 +51,18 @@ class Todo {
         return true;
     }
 
-    public function registerNewTodo($title, $detail, $deadline_at) {
+    public function create($title, $detail, $deadline_at) {
 
         try {
             $db = new PDO(DSH, USER, PASSWORD);
             $db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
             $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-            $sql = "INSERT INTO todos (title, detail, deadline_at) VALUES (:title, :detail, :deadline_at)";
+            
+            $sql = "INSERT INTO todos(title, detail, deadline_at, created_at) VALUES (:title, :detail, :deadline_at, now())";
             $stmt = $db->prepare($sql);
-
-            $params = array('title' => $title, 'detail' => $detail, 'deadline_at' => $deadline_at);
+            $params = array(':title' => $title, ':detail' => $detail, ':deadline_at' => $deadline_at);
             $stmt->execute($params);
-            print_r($params);
+            echo '登録完了しました';
 
         } catch (PDOException $e) {
             print ("Error:" .$e->getMessage());

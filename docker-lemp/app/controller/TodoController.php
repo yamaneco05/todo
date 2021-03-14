@@ -30,9 +30,10 @@ class TodoController {
         $title = $_POST['title'];
         $detail = $_POST['detail'];
         $deadline_at = $_POST['deadline_at'];
+        //$created_at = $_POST['created_at'];
 
         //'todo_id'に該当するレコードの存在確認
-        $newTodo = Todo::registerNewTodo($title, $detail, $deadline_at);
+        $newTodo = Todo::create($title, $detail, $deadline_at);
         if ( $newTodo === false ) {
             header( "Location: new.php" );
             return;
