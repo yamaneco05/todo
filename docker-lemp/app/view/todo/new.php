@@ -135,11 +135,11 @@ textarea[name=detail] {
 
   <?php elseif( $page_flag === 2 ): ?>
 
-    <?php echo "<p>title: " . $params['title'] . "</p>"; ?>
+    <p><?php echo "title:" . $params['title']; ?></p>
     <?php echo "<p>detail: " . $params['detail'] . "</p>"; ?>
 	<?php echo "<p>deadline_at: " . $params['deadline_at'] . "</p>"; ?>
 
-    <?php echo '<p>で登録しました。</p>'; ?>
+	<p><?php echo 'で登録しました。'; ?></p>
 
     <a href="/index.php">View My Task</a>
 
