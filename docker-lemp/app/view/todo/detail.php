@@ -15,13 +15,13 @@ $todo = $controller->detail();
   <h2>DETAIL</h2>
 
     <ul>
-      <li><?php echo $todo['title']; ?></li>
+      <li><?php echo "タスク:" . $todo['title']; ?></li>
+      <li><?php echo "詳細:" . $todo['detail']; ?></li><br>
       <li><?php echo "しめきり:" . $todo['deadline_at'] ?></li>
       <li><?php echo "作成日:" . $todo['created_at']; ?></li>
       <li><?php echo "更新済？:" . $todo['deadline_at']; ?></li>
       <li><?php echo "削除済？:" . $todo['delated_at']; ?></li>
-      <li><?php echo "詳細:"; ?><br>
-      <?php echo $todo['detail']; ?></li>
+      
     </ul>
   
     <a href="/index.php">View My Task</a>

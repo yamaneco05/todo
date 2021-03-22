@@ -1,6 +1,18 @@
 <?php
-require_once '/var/www/html/app/controller/TodoController.php'; 
-var_dump($_POST);
+require_once '/var/www/html/app/controller/TodoController.php';
+require_once '/var/www/html/app/validation/TodoValidation.php';
+require_once '/var/www/html/app/validation/DetailValidation.php';
+require_once '/var/www/html/app/validation/DateValidation.php';
+
+
+class BaseValidation {
+
+    public $errors = array();
+
+    public function getErrorMessages() {
+        return $this->errors;
+    }
+}
 
 //変数の初期化
 $page_flag = 0;
@@ -8,9 +20,11 @@ if ( !empty($_POST['btn_confirm']) ) {
 
 	$page_flag = 1;
 }
+
 if( !empty($_POST['btn_submit']) ) {
 
 	$page_flag = 2;
+	
   	$controller = new TodoController;
   	$params = $controller->new();
 
@@ -108,22 +122,53 @@ textarea[name=detail] {
   <h1>新しいタスクを追加する</h1>
 
   <?php if( $page_flag === 1 ): ?>
+	
 
     <form method="post" action="">
 	    <div class="element_wrap">
-		    <label>タスク:</label>
-		    <p><?php echo $_POST['title']; ?></p>
+		    <label>タスク : </label>
+			<p><?php echo $_POST['title']; ?></p>
+			<?php $validation = new TodoValid; 
+            $check = $validation->check(); ?>
 	    </div>
+		<?php if ($check == false): ?>
+        <?php foreach ( $validation->getErrorMessages() as $error ): ?>
+			
+        <p><?php echo $error . PHP_EOL; ?></p>
+      
+        <?php endforeach; ?>
+		<?php $page_flag = 1; ?>
+        <?php endif; ?>
 
 	    <div class="element_wrap">
-		    <label>詳細:</label>
+		    <label>詳細 : </label>
 		    <p><?php echo $_POST['detail']; ?></p>
+			<?php $validation = new DetailValid; 
+            $check = $validation->check(); ?>
 	    </div>
+		<?php if ($check == false): ?>
+        <?php foreach ( $validation->getErrorMessages() as $error ): ?>
+
+        <p><?php echo $error . PHP_EOL; ?></p>
+      
+        <?php endforeach; ?>
+		<?php $page_flag = 1; ?>
+        <?php endif; ?>
 
 	    <div class="element_wrap">
-		    <label>期限:</label>
+		    <label>期限 : </label>
 		    <p><?php echo $_POST['deadline_at']; ?></p>
+			<?php $validation = new DateValid; 
+            $check = $validation->check(); ?>
 	    </div>
+		<?php if ($check == false): ?>
+        <?php foreach ( $validation->getErrorMessages() as $error ): ?>
+
+        <p><?php echo $error . PHP_EOL; ?></p>
+      
+        <?php endforeach; ?>
+		
+        <?php endif; ?>
 
 	    <input type="submit" name="btn_back" value="戻る">
 	    <input type="submit" name="btn_submit" value="送信">
@@ -135,9 +180,9 @@ textarea[name=detail] {
 
   <?php elseif( $page_flag === 2 ): ?>
 
-    <p><?php echo "title:" . $params['title']; ?></p>
-    <?php echo "<p>detail: " . $params['detail'] . "</p>"; ?>
-	<?php echo "<p>deadline_at: " . $params['deadline_at'] . "</p>"; ?>
+    <p><?php echo "title:" . $_POST['title']; ?></p>
+    <?php echo "<p>detail: " . $_POST['detail'] . "</p>"; ?>
+	<?php echo "<p>deadline_at: " . $_POST['deadline_at'] . "</p>"; ?>
 
 	<p><?php echo 'で登録しました。'; ?></p>
 
@@ -147,17 +192,17 @@ textarea[name=detail] {
 
     <form action="" method="POST">
       <div id="element_wrap">
-        <label>タスク:</label>
+        <label>タスク : </label>
         <input type="text" name="title" value="<?php if( !empty($_POST['title']) ){ echo $_POST['title']; } ?>">
       </div>
 
       <div id="element_wrap">
-        <label>詳細:</label>
+        <label>詳細 : </label>
         <input type="text" name="detail" value="<?php if( !empty($_POST['detail']) ){ echo $_POST['detail']; } ?>">
       </div>
 
 	  <div id="element_wrap">
-        <label>期限:</label>
+        <label>期限 : </label>
         <input type="datetime" name="deadline_at" value="<?php if( !empty($_POST['deadline_at']) ){ echo $_POST['deadline_at']; } ?>">
       </div>
 

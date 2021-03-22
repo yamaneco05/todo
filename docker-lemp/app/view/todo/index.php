@@ -20,9 +20,8 @@ $todos = TodoController::index();
 
       <li><a href="/detail.php?todo_id=<?php echo $todo['id']; ?>">
       <?php echo $todo['title']; ?></a></li>
-
-      <li><?php echo $todo['deadline_at'] . "までにやる"; ?></li>
       <li><?php echo $todo['detail']; ?></li>
+      <li><?php echo $todo['deadline_at'] . "までにやる"; ?></li>
     </ul>
 
   <?php endforeach; ?>
