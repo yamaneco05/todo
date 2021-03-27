@@ -13,6 +13,8 @@ $todos = TodoController::index();
 <body>
   <h1>TODOリスト</h1>
 
+  <a href="/new.php">Create New Task</a>
+  
   <?php foreach($todos as $todo): ?>
 
     <ul>
@@ -25,8 +27,6 @@ $todos = TodoController::index();
     </ul>
 
   <?php endforeach; ?>
-
-  <a href="/new.php">Create New Task</a>
   
 </body>
 

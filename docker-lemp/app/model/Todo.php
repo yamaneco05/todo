@@ -62,7 +62,7 @@ class Todo {
             $stmt = $db->prepare($sql);
             $params = array('user_id' => 1, ':title' => $title, ':detail' => $detail, ':deadline_at' => $deadline_at);
             $stmt->execute($params);
-            echo '登録完了しました';
+            //echo '登録完了しました';
 
         } catch (PDOException $e) {
             print ("Error:" .$e->getMessage());

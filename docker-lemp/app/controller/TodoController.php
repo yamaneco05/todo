@@ -1,5 +1,6 @@
 <?php
 require_once '/var/www/html/app/model/Todo.php';
+require_once '/var/www/html/app/validation/TodoValidation.php';
 
 class TodoController {
 
@@ -30,9 +31,19 @@ class TodoController {
         $title = $_POST['title'];
         $detail = $_POST['detail'];
         $deadline_at = $_POST['deadline_at'];
-        //$created_at = $_POST['created_at'];
 
-        //'todo_id'に該当するレコードの存在確認
+   //ここでバリデーションクラスのcheckメソッドを呼ぶ
+
+        $validation = new TodoValidation; 
+        $check = $validation->check();
+        //もしチェックがNGなら、再度、入力画面にリダイレクトする
+		if ($check === false) {
+       
+            foreach ( $validation->getErrorMessages() as $error ) {
+                echo "<p>" . $error . "<p>";  
+            }
+
+        }
         $newTodo = Todo::create($title, $detail, $deadline_at);
         if ( $newTodo === false ) {
             header( "Location: new.php" );
