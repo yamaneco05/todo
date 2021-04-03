@@ -6,16 +6,19 @@ require_once '/var/www/html/app/validation/TodoValidation.php';
 //変数の初期化
 $page_flag = 0;
 if ( !empty($_POST['btn_confirm']) ) {
-
 	$page_flag = 1;
 	$controller = new TodoController;
 	$params = $controller->new();
 }
 
 if( !empty($_POST['btn_submit']) ) {
-
 	$page_flag = 2;
+}
 
+session_start();
+if ( !empty($_SESSION['error']) ) {
+	$errors = $_SESSION['error'];
+	$page_flag = 3;
 }
 ?>
 
@@ -109,44 +112,54 @@ textarea[name=detail] {
 <body>
   <h1>新しいタスクを追加する</h1>
 
-  <?php if( $page_flag === 1 ): ?>
-	
+	<?php if( $page_flag === 1 ): ?>
 
-    <form method="post" action="">
-	    <div class="element_wrap">
-		    <label>タスク : </label>
-			<p><?php echo $_POST['title']; ?></p>
-	    </div>
+		<form method="post" action="">
+			<div class="element_wrap">
+				<label>タスク : </label>
+				<p><?php echo $_POST['title']; ?></p>
+			</div>
 
-	    <div class="element_wrap">
-		    <label>詳細 : </label>
-		    <p><?php echo $_POST['detail']; ?></p>
-	    </div>
+			<div class="element_wrap">
+				<label>詳細 : </label>
+				<p><?php echo $_POST['detail']; ?></p>
+			</div>
 
-	    <div class="element_wrap">
-		    <label>期限 : </label>
-		    <p><?php echo $_POST['deadline_at']; ?></p>
-	    </div>
+			<div class="element_wrap">
+				<label>期限 : </label>
+				<p><?php echo $_POST['deadline_at']; ?></p>
+			</div>
 
-	    <input type="submit" name="btn_back" value="戻る">
-	    <input type="submit" name="btn_submit" value="送信">
-	    <input type="hidden" name="title" value="<?php echo $_POST['title']; ?>">
-	    <input type="hidden" name="detail" value="<?php echo $_POST['detail']; ?>">
-		<input type="hidden" name="deadline_at" value="<?php echo $_POST['deadline_at']; ?>">
+			<input type="submit" name="btn_back" value="戻る">
+			<input type="submit" name="btn_submit" value="送信">
+			<input type="hidden" name="title" value="<?php echo $_POST['title']; ?>">
+			<input type="hidden" name="detail" value="<?php echo $_POST['detail']; ?>">
+			<input type="hidden" name="deadline_at" value="<?php echo $_POST['deadline_at']; ?>">
 
-	</form>
+		</form>
 
-  <?php elseif( $page_flag === 2 ): ?>
+	<?php elseif( $page_flag === 2 ): ?>
 
-    <p><?php echo "title:" . $_POST['title']; ?></p>
-    <?php echo "<p>detail: " . $_POST['detail'] . "</p>"; ?>
-	<?php echo "<p>deadline_at: " . $_POST['deadline_at'] . "</p>"; ?>
+		<p><?php echo "title:" . $_POST['title']; ?></p>
+		<?php echo "<p>detail: " . $_POST['detail'] . "</p>"; ?>
+		<?php echo "<p>deadline_at: " . $_POST['deadline_at'] . "</p>"; ?>
 
-	<p><?php echo 'で登録しました。'; ?></p>
+		<p><?php echo 'で登録しました。'; ?></p>
 
-    <a href="/index.php">View My Task</a>
+		<a href="/index.php">View My Task</a>
 
-  <?php else: ?>
+    <?php elseif( $page_flag === 3 ): ?>
+
+		<?php foreach ($errors as $error): ?>
+
+			<p><?php echo $error; ?></p>
+		
+		<?php endforeach; ?>
+		<? $_SESSION = array(); session_destroy();?>
+
+		<a href="/index.php">View My Task</a>
+
+  	<?php else: ?>
 
     <form action="" method="POST">
       <div id="element_wrap">

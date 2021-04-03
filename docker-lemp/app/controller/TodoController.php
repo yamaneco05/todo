@@ -38,11 +38,11 @@ class TodoController {
         $check = $validation->check();
         //もしチェックがNGなら、再度、入力画面にリダイレクトする
 		if ($check === false) {
-       
-            foreach ( $validation->getErrorMessages() as $error ) {
-                echo "<p>" . $error . "<p>";  
-            }
-
+            session_start();
+                
+            $_SESSION['error'] = $validation->getErrorMessages(); 
+            header( "Location: new.php" );
+            exit();
         }
         $newTodo = Todo::create($title, $detail, $deadline_at);
         if ( $newTodo === false ) {
