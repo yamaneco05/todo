@@ -32,25 +32,34 @@ class TodoController {
         $detail = $_POST['detail'];
         $deadline_at = $_POST['deadline_at'];
 
-   //ここでバリデーションクラスのcheckメソッドを呼ぶ
-
+        //ここでバリデーションクラスのcheckメソッドを呼ぶ
         $validation = new TodoValidation; 
         $check = $validation->check();
+        
         //もしチェックがNGなら、再度、入力画面にリダイレクトする
-		if ($check === false) {
+		if ( $check === false ) {
             session_start();
                 
             $_SESSION['error'] = $validation->getErrorMessages(); 
             header( "Location: new.php" );
             exit();
         }
+        return true;
+    }
+
+    public function register() {
+        //POSTパラメータ取得
+        $title = $_POST['title'];
+        $detail = $_POST['detail'];
+        $deadline_at = $_POST['deadline_at'];
+
+        //データベースへ新規登録
         $newTodo = Todo::create($title, $detail, $deadline_at);
         if ( $newTodo === false ) {
             header( "Location: new.php" );
             return;
         }        
-        return $todo;
-
+        return $newTodo;
     }
 }
 
