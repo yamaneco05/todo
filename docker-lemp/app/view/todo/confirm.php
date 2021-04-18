@@ -18,19 +18,27 @@ $params = $controller->new();
   
   <form action="complete.php" method="POST">
     
+      <div class="element_wrap">
+      <label>タスク : 
+      <input type="hidden" name="title" value="<?php echo $_POST['title']; ?>">
+      </label>
+      <p><?php echo $_POST['title']; ?></p>
+      </div>
+
     <div class="element_wrap">
-      <label>タスク : </label>
-      <input type="text" name="title" value="<?php echo $_POST['title']; ?>">
+      <label>詳細 : 
+      <input type="hidden" name="detail" value="<?php echo $_POST['detail']; ?>">
+      </label>
+      <p><?php echo $_POST['detail']; ?></p>
     </div>
 
     <div class="element_wrap">
-      <label>詳細 : </label>
-      <input type="text" name="detail" value="<?php echo $_POST['detail']; ?>">
-    </div>
-
-    <div class="element_wrap">
-      <label>期限 : </label>
-      <input type="datetime" name="deadline_at" value="<?php echo $_POST['deadline_at']; ?>">
+      <label>期限 : 
+      <input type="hidden" name="deadline_at" value="<?php echo $_POST['deadline_at']; ?>">
+      </label>
+      <p><?php echo $_POST['deadline_at']; ?></p>
+      
+      
     </div>
         
     <p>登録しますか？</p>

@@ -17,18 +17,21 @@ $params = $controller->register();
 	<h1>新しいタスクを追加する</h1>
 
     <div class="element_wrap">
-		<label>タスク : </label>
+		<label>タスク : 
 		<p><?php echo $params[':title'] ?></p>
+		</label>
 	</div>
 
 	<div class="element_wrap">
-		<label>詳細 : </label>
+		<label>詳細 : 
 		<p><?php echo $params[':detail'] ?></p>
+		</label>
 	</div>
 
 	<div class="element_wrap">
-		<label>期限 : </label>
+		<label>期限 : 
 		<p><?php echo $params[':deadline_at'] ?></p>
+		</label>
 	</div>
 		
 	<p>登録しました。</p>

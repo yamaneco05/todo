@@ -25,6 +25,7 @@ $todos = TodoController::index();
         <?php echo $todo['title']; ?></a></label>
         <li><?php echo $todo['detail']; ?></li>
         <li><?php echo $todo['deadline_at'] . "までにやる"; ?></li>
+        
       </ul>
     </div>
   <?php endforeach; ?>

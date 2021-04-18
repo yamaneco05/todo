@@ -37,19 +37,22 @@ if ( !empty($_SESSION['error']) ) {
         
       <form action="confirm.php" method="POST">
         
-        <div id="element_wrap">
-          <label>タスク : </label>
-          <input type="text" name="title" value="<?php echo $_POST['title']; ?>">
+        <div class="element_wrap">
+            <label>
+                タスク : <input type="text" name="title" value="<?php echo $_POST['title']; ?>">
+            </label>
         </div>
 
-        <div id="element_wrap">
-          <label>詳細 : </label>
-          <input type="text" name="detail" value="<?php echo $_POST['detail']; ?>">
+        <div class="element_wrap">
+            <label>
+                詳細 : <input type="text" name="detail" value="<?php echo $_POST['detail']; ?>">
+            </label>
         </div>
 
-	      <div id="element_wrap">
-          <label>期限 : </label>
-          <input type="datetime" name="deadline_at" value="<?php echo $_POST['deadline_at']; ?>">
+	      <div class="element_wrap">
+            <label>
+                期限 : <input type="datetime" name="deadline_at" value="<?php echo $_POST['deadline_at']; ?>">
+            </label>
         </div>
 
 		    <p>※期限の入力例 : 2021年5月3日10時30分 → 2021.05.03.10.30</p>
