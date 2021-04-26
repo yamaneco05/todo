@@ -2,7 +2,7 @@
 require_once '/var/www/html/app/controller/TodoController.php';
 require_once '/var/www/html/app/validation/TodoValidation.php';
 $controller = new TodoController;
-$params = $controller->new();
+$params = $controller->confirm();
 ?>
 
 <!DOCTYPE>
@@ -10,7 +10,7 @@ $params = $controller->new();
 <head>
   <meta charset="UTF-8">
   <title>PHP TEST5</title>
-  <link rel="stylesheet" href="css/style.css" type="text/css" media="all">
+  <link rel="stylesheet" href="/var/www/html/app/public/css/style.css" type="text/css" media="all">
 </head>
 
 <body>

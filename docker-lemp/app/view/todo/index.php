@@ -8,9 +8,8 @@ $todos = TodoController::index();
 <head>
   <meta charset="UTF-8">
   <title>PHP TEST</title>
-  <link rel="stylesheet" href="css/style.css" type="text/css" media="all">
+  <link rel="stylesheet" href="../../public/css/style.css" type="text/css" media="all">
 </head>
-
 <body>
   <h1>TODOリスト</h1>
 

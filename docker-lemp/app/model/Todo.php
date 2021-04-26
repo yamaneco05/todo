@@ -74,6 +74,37 @@ class Todo {
         }
         return $params;
     }
+
+    public function change($todoId, $title, $detail, $deadline_at, $updated_at) {
+
+        try {
+            $db = new PDO(DSH, USER, PASSWORD);
+            //ネイティブのプリペアドステートメントを使う
+            $db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+            // 例外 を投げる
+            $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            //$sql = "SELECT * FROM todos WHERE id = $todoId";
+            
+            // 現在の日付を取得
+            $updated_at = date('Y-m-d H:i:s');
+            $sql = "UPDATE todos SET title = ':title', detail = ':detail', deadline_at = ':deadline_at', updated_at = ':updated_at' WHERE id = ':id'";
+            $stmt = $db->prepare($sql);
+            $params = array(':title' => $title, ':detail' => $detail, ':deadline_at' => $deadline_at, ':updated_at' => $updated_at, ':id' => $todoId);
+            $stmt->execute($params);
+            echo $stmt->rowCount();
+            echo '更新完了しました';
+            print_r($params);
+
+        } catch (PDOException $e) {
+            print ("Error:" .$e->getMessage());
+            exit;
+        }
+
+        if( $params == null ) {
+            return false;
+        }
+        return $params;
+    }
 }
 
 ?>
