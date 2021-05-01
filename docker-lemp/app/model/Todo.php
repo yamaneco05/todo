@@ -1,5 +1,7 @@
 <?php
 require_once '/var/www/html/app/config/database.php';
+require_once '/var/www/html/app/controller/TodoController.php';
+
 
 class Todo {
     public $todos;
@@ -75,7 +77,7 @@ class Todo {
         return $params;
     }
 
-    public function change($todoId, $title, $detail, $deadline_at, $updated_at) {
+    public function change($todoId, $title, $detail, $deadline_at) {
 
         try {
             $db = new PDO(DSH, USER, PASSWORD);
@@ -87,23 +89,25 @@ class Todo {
             
             // 現在の日付を取得
             $updated_at = date('Y-m-d H:i:s');
-            $sql = "UPDATE todos SET title = ':title', detail = ':detail', deadline_at = ':deadline_at', updated_at = ':updated_at' WHERE id = ':id'";
+            //更新
+            $sql = "UPDATE todos SET  title = '$title', detail = '$detail', deadline_at = '$deadline_at', updated_at = '$updated_at' WHERE id = $todoId && user_id = 1";            
             $stmt = $db->prepare($sql);
-            $params = array(':title' => $title, ':detail' => $detail, ':deadline_at' => $deadline_at, ':updated_at' => $updated_at, ':id' => $todoId);
-            $stmt->execute($params);
-            echo $stmt->rowCount();
-            echo '更新完了しました';
-            print_r($params);
-
+            $stmt->execute();
+            //配列の取得
+            $sql = "SELECT * FROM todos WHERE id = $todoId && user_id = 1";
+            $stmt = $db->prepare($sql);
+            $stmt->execute();
+            $todo = $stmt->fetch(PDO::FETCH_ASSOC);
+          
         } catch (PDOException $e) {
             print ("Error:" .$e->getMessage());
             exit;
         }
 
-        if( $params == null ) {
+        if( $todo == null ) {
             return false;
         }
-        return $params;
+        return $todo;
     }
 }
 

@@ -23,46 +23,32 @@ $params = $controller->editConfirm();
 </head>
 
 <body>
-
-
   	<h1>編集内容を確認する</h1>
 	
   	<form action="editComplete.php" method="POST">
   	
 	<div class="element_wrap">
-		<p><?php echo "ID:" . $_POST['todoId']; ?></p>
+		<li><?php echo "ID:" . $_POST['todoId']; ?>
  		<input type="hidden" name="todoId" value="<?php echo $_POST['todoId']; ?>">
-   	</div>
+		</li>
 
-    <div class="element_wrap">
-    	<label>タスク : 
+    	<li><?php echo "タスク : " .  $_POST['title']; ?>
       		<input type="hidden" name="title" value="<?php echo $_POST['title']; ?>">
-      	</label>
-      	<p><?php echo $_POST['title']; ?></p>
-    </div>
+		</li>
 
-    <div class="element_wrap">
-      	<label>詳細 : 
+      	<li><?php echo "詳細 : " .  $_POST['detail']; ?>
       		<input type="hidden" name="detail" value="<?php echo $_POST['detail']; ?>">
-      	</label>
-      	<p><?php echo $_POST['detail']; ?></p>
-    </div>
+		</li>
 
-    <div class="element_wrap">
-      	<label>期限 : 
+      	<li><?php echo "期限 : " .  $_POST['deadline_at']; ?>
       		<input type="hidden" name="deadline_at" value="<?php echo $_POST['deadline_at']; ?>">
-      	</label>
-      	<p><?php echo $_POST['deadline_at']; ?></p>
-    </div>
+      	</li>
         
-    <p>この編集内容を登録しますか？</p>
-    <input type="submit" class="button" value="登録">
-    
+    	<p>この編集内容を登録しますか？</p>
+    	<input type="submit" class="button" value="登録">
     </form>
-
-    <button class="button" onclick="history.back()">戻る</button>
+	</div>
+	<button class="button" onclick="history.back()">戻る</button>
     <a href="/index.php" class="button">タスク一覧へ</a>
-	
-	
 </body>
 </html>

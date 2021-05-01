@@ -8,7 +8,7 @@ $todos = TodoController::index();
 <head>
   <meta charset="UTF-8">
   <title>PHP TEST</title>
-  <link rel="stylesheet" href="../../public/css/style.css" type="text/css" media="all">
+  <link rel="stylesheet" href="/var/www/html/app/public/css/style.css" type="text/css" media="all">
 </head>
 <body>
   <h1>TODOリスト</h1>
@@ -20,8 +20,8 @@ $todos = TodoController::index();
       <ul>
         <li><?php echo $todo['id']; ?></li>
 
-        <label><a href="/detail.php?todo_id=<?php echo $todo['id']; ?>">
-        <?php echo $todo['title']; ?></a></label>
+        <li><a href="/detail.php?todo_id=<?php echo $todo['id']; ?>">
+        <?php echo $todo['title']; ?></a></li>
         <li><?php echo $todo['detail']; ?></li>
         <li><?php echo $todo['deadline_at'] . "までにやる"; ?></li>
         

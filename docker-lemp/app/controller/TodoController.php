@@ -1,5 +1,6 @@
 <?php
 require_once '/var/www/html/app/model/Todo.php';
+require_once '/var/www/html/app/controller/TodoController.php';
 require_once '/var/www/html/app/validation/TodoValidation.php';
 
 class TodoController {
@@ -68,13 +69,17 @@ class TodoController {
     }
 
     public function edit() {
-        //POSTパラメータ取得
-        $todoId = $_POST['todoId'];
-        $title = $_POST['title'];
-        $detail = $_POST['detail'];
-        $deadline_at = $_POST['deadline_at'];
-
-        return true;
+        //GETパラメータ取得
+        $todoId = $_GET['todo_id'];
+        //'todo_id'に該当するレコードの取得
+        $isExist = Todo::isExistById($todoId);
+        if ( $isExist === false ) {
+            header( "Location: ./error/404.php" );
+            return;
+        }
+        $todo = Todo::findById($todoId);
+        
+        return $todo;
     }
 
     public function editConfirm() {
@@ -111,10 +116,9 @@ class TodoController {
         $title = $_POST['title'];
         $detail = $_POST['detail'];
         $deadline_at = $_POST['deadline_at'];
-        //$updated_at = date("Y-m-d H:i:s");
 
         //データベースの編集
-        $editTodo = Todo::change($todoId, $title, $detail, $deadline_at, $updated_at);
+        $editTodo = Todo::change($todoId, $title, $detail, $deadline_at);
         if ( $editTodo === false ) {
             header( "Location: edit.php" );
             return;

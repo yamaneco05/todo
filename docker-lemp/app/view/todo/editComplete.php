@@ -16,32 +16,16 @@ $params = $controller->editComplete();
 </head>
 
 <body>
-
-	
 	<h1>登録完了</h1>
 
     <div class="element_wrap">
-		<label>タスク : 
-		<p><?php echo $editTodo[':title'] ?></p>
-		</label>
-	</div>
+		<li><?php echo "タスク : " . $params['title'] ?></li>
 
-	<div class="element_wrap">
-		<label>詳細 : 
-		<p><?php echo $editTodo[':detail'] ?></p>
-		</label>
-	</div>
+		<li><?php echo "詳細 : " .  $params['detail'] ?></li>
 
-	<div class="element_wrap">
-		<label>期限 : 
-		<p><?php echo $editTodo[':deadline_at'] ?></p>
-		</label>
-	</div>
+		<li><?php echo "期限 : " . $params['deadline_at'] ?></li>
 		
-	<div class="element_wrap">
-		<label>更新日時 : 
-		<p><?php echo $editTodo[':updated_at'] ?></p>
-		</label>
+		<li><?php echo "更新日時 : " . $params['updated_at'] ?></li>
 	</div>
 
 	<p>編集内容を登録しました。</p>
