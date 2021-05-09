@@ -1,7 +1,10 @@
+
 <?php
+require_once '/var/www/html/app/config/database.php';
 require_once '/var/www/html/app/model/Todo.php';
 require_once '/var/www/html/app/controller/TodoController.php';
 require_once '/var/www/html/app/validation/TodoValidation.php';
+
 
 class TodoController {
 
@@ -34,10 +37,11 @@ class TodoController {
             exit();
         }
         //POSTパラメータ取得
+        $todoId = $_POST['todoId'];
         $title = $_POST['title'];
         $detail = $_POST['detail'];
         $deadline_at = $_POST['deadline_at'];
-
+        
         //ここでバリデーションクラスのcheckメソッドを呼ぶ
         $validation = new TodoValidation; 
         $check = $validation->check();
@@ -54,13 +58,11 @@ class TodoController {
     }
 
     public function register() {
-        //POSTパラメータ取得
-        $title = $_POST['title'];
-        $detail = $_POST['detail'];
-        $deadline_at = $_POST['deadline_at'];
+        $todo = new Todo;
 
         //データベースへ新規登録
-        $newTodo = Todo::create($title, $detail, $deadline_at);
+        $newTodo = $todo->create();
+        print_r($newTodo);
         if ( $newTodo === false ) {
             header( "Location: new.php" );
             return;
@@ -112,13 +114,22 @@ class TodoController {
     public function editComplete() {
 
         //POSTパラメータ取得
-        $todoId = $_POST['todoId'];
-        $title = $_POST['title'];
-        $detail = $_POST['detail'];
-        $deadline_at = $_POST['deadline_at'];
+        $todo = new Todo;
+        // $todo->setId($_POST['todoId']);
+        // $todo->setTitle($_POST['title']);
+        // $todo->setDetail($_POST['detail']);
+        // // $todo->setDeadline($_POST['deadline_at']);
 
+        // $todoId = $todo->getId();
+        // $title = $todo->getTitle();
+        // $detail = $todo->getDetail();
+        // $deadline_at = $todo->getDeadline();
+        // echo $deadline_at;
+        
+        // var_dump($todo->update());
         //データベースの編集
-        $editTodo = Todo::change($todoId, $title, $detail, $deadline_at);
+        // $todo = new Todo;
+        $editTodo = $todo->update();
         if ( $editTodo === false ) {
             header( "Location: edit.php" );
             return;

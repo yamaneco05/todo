@@ -1,4 +1,7 @@
 <?php
+require_once '/var/www/html/app/model/Todo.php';
+require_once '/var/www/html/app/controller/TodoController.php';
+
 class BaseValidation {
 
     public $errors = array();

@@ -28,26 +28,29 @@ $params = $controller->editConfirm();
   	<form action="editComplete.php" method="POST">
   	
 	<div class="element_wrap">
-		<li><?php echo "ID:" . $_POST['todoId']; ?>
- 		<input type="hidden" name="todoId" value="<?php echo $_POST['todoId']; ?>">
-		</li>
+		<ul>
+			<li><?php echo "ID:" . $_POST['todoId']; ?>
+			<input type="hidden" name="todoId" value="<?php echo $_POST['todoId']; ?>">
+			</li>
 
-    	<li><?php echo "タスク : " .  $_POST['title']; ?>
-      		<input type="hidden" name="title" value="<?php echo $_POST['title']; ?>">
-		</li>
+			<li><?php echo "タスク : " .  $_POST['title']; ?>
+				<input type="hidden" name="title" value="<?php echo $_POST['title']; ?>">
+			</li>
 
-      	<li><?php echo "詳細 : " .  $_POST['detail']; ?>
-      		<input type="hidden" name="detail" value="<?php echo $_POST['detail']; ?>">
-		</li>
+			<li><?php echo "詳細 : " .  $_POST['detail']; ?>
+				<input type="hidden" name="detail" value="<?php echo $_POST['detail']; ?>">
+			</li>
 
-      	<li><?php echo "期限 : " .  $_POST['deadline_at']; ?>
-      		<input type="hidden" name="deadline_at" value="<?php echo $_POST['deadline_at']; ?>">
-      	</li>
-        
-    	<p>この編集内容を登録しますか？</p>
-    	<input type="submit" class="button" value="登録">
-    </form>
+			<li><?php echo "期限 : " .  $_POST['deadline_at']; ?>
+				<input type="hidden" name="deadline_at" value="<?php echo $_POST['deadline_at']; ?>">
+			</li>
+			
+			<p>この編集内容を登録しますか？</p>
+			<input type="submit" class="button" value="登録">
+		</ul>
 	</div>
+    </form>
+	
 	<button class="button" onclick="history.back()">戻る</button>
     <a href="/index.php" class="button">タスク一覧へ</a>
 </body>

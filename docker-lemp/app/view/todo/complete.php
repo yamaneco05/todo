@@ -2,36 +2,28 @@
 require_once '/var/www/html/app/model/Todo.php';
 require_once '/var/www/html/app/controller/TodoController.php';
 $controller = new TodoController;
-$params = $controller->register();
+$todo = $controller->register();
 ?>
 
 <!DOCTYPE>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <title>PHP TEST6</title>
-  <link rel="stylesheet" href="/var/www/html/app/public/css/style.css" type="text/css" media="all">
+  	<meta charset="UTF-8">
+  	<title>PHP TEST6</title>
+  	<link rel="stylesheet" href="/var/www/html/app/public/css/style.css" type="text/css" media="all">
 </head>
 
 <body>
 	<h1>新しいタスクを追加する</h1>
 
     <div class="element_wrap">
-		<label>タスク : 
-		<p><?php echo $params[':title'] ?></p>
-		</label>
-	</div>
+		<ul>
+			<li><?php echo "タスク : " . $todo['title'] ?></li>
 
-	<div class="element_wrap">
-		<label>詳細 : 
-		<p><?php echo $params[':detail'] ?></p>
-		</label>
-	</div>
+			<li><?php echo "詳細 : " .  $todo['detail'] ?></li>
 
-	<div class="element_wrap">
-		<label>期限 : 
-		<p><?php echo $params[':deadline_at'] ?></p>
-		</label>
+			<li><?php echo "期限 : " . $todo['deadline_at'] ?></li>
+		</ul>
 	</div>
 		
 	<p>登録しました。</p>
