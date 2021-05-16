@@ -58,7 +58,7 @@ class Todo {
 
     public function create() {
         $todo = new Todo;
-        $todo->setId($_POST['todoId']);
+        $todo->setId($_POST['id']);
         $todo->setTitle($_POST['title']);
         $todo->setDetail($_POST['detail']);
         $todo->setDeadline($_POST['deadline_at']);
@@ -106,12 +106,6 @@ class Todo {
     }
 
     public function update() {
-        $todo = new Todo;
-        $todo->setId($_POST['todoId']);
-        $todo->setTitle($_POST['title']);
-        $todo->setDetail($_POST['detail']);
-        $todo->setDeadline($_POST['deadline_at']);
-
         try {
             $db = new PDO(DSH, USER, PASSWORD);
             //ネイティブのプリペアドステートメントを使う
@@ -126,28 +120,25 @@ class Todo {
             $updated_at = date('Y-m-d H:i:s');
             //更新
             $sql = "UPDATE todos SET 
-                                title = '" . $todo->getTitle() . "',
-                                detail = '" . $todo->getDetail() . "',
-                                deadline_at = '" . $todo->getDeadline() . "',
+                                title = '" . $this->getTitle() . "',
+                                detail = '" . $this->getDetail() . "',
+                                deadline_at = '" . $this->getDeadline() . "',
                                 updated_at = '$updated_at'
-                    WHERE id = '" . $todo->getId() . "' && user_id = 1";
+                    WHERE id = '" . $this->getId() . "' && user_id = 1";
             $db->exec($sql);
             // トランザクション完了（コミット）
 	        $db->commit();
             $stmt = $db->prepare($sql);
             $stmt->execute();
-            //配列の取得
-            $sql = "SELECT * FROM todos WHERE id = '" . $todo->getId() . "' && user_id = 1";
-            $stmt = $db->prepare($sql);
-            $stmt->execute();
-            $todo = $stmt->fetch(PDO::FETCH_ASSOC);
-          
+
         } catch (PDOException $e) {
             //トランザクション取り消し（ロールバック）
 	        $db->rollBack();
             print ("Error:" .$e->getMessage());
             exit;
         }
+        $todo = self::findById($this->getId());
+        
         //データベース接続切断
         $db = null;
         if( $todo == null ) {

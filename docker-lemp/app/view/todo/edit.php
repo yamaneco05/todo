@@ -4,6 +4,13 @@ require_once '/var/www/html/app/controller/TodoController.php';
 require_once '/var/www/html/app/validation/TodoValidation.php';
 $controller = new TodoController;
 $todo = $controller->edit();
+
+session_start();
+if ( !empty($_SESSION['error']) ) {
+  	$errors = $_SESSION['error'];
+	$page_flag = 1;
+	$_SESSION['error'] = array();  //セッションのエラーメッセージ削除
+}
 ?>
 
 <!DOCTYPE>
@@ -16,12 +23,26 @@ $todo = $controller->edit();
 
 <body>
   	<h1>タスクを編集する</h1>
+
+	  <?php if( $page_flag === 1 ): ?>
+		
+		<?php foreach ($errors as $error): ?>
+
+			<p><?php echo $error; ?></p>
+		
+		<?php endforeach; ?>
+		
+    	<?php $_SESSION = array(); session_destroy();?>
+
+		<button class="button" onclick="history.back()">戻る</button>
+    
+	<?php else: ?>
   
   	<form action="editConfirm.php" method="POST">
     <div class="element_wrap">
     <ul>
         <li><?php echo "ID:" . $todo['id']; ?></li>
-        <input type="hidden" name="todoId" value="<?php echo $todo['id']; ?>">
+        <input type="hidden" name="id" value="<?php echo $todo['id']; ?>">
 
         <li><?php echo "タスク:" ?>
         	<input type="text" name="title" value="<?php echo $todo['title']; ?>">
@@ -46,5 +67,6 @@ $todo = $controller->edit();
     </div>
     </form>
     <a href="/index.php" class="button">タスク一覧へ</a>
+	<?php endif; ?>
 </body>
 </html>

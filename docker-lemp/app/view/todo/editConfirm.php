@@ -2,15 +2,8 @@
 require_once '/var/www/html/app/controller/TodoController.php';
 require_once '/var/www/html/app/validation/TodoValidation.php';
 require_once '/var/www/html/app/model/Todo.php';
-// session_start();
-// if ( !empty($_SESSION['error']) ) {
-//   	$errors = $_SESSION['error'];
-// 	$page_flag = 1;
-// 	$_SESSION['error'] = array();  //セッションのエラーメッセージ削除
-// }
-
 $controller = new TodoController;
-$params = $controller->editConfirm();
+$todo = $controller->editConfirm();
 
 ?>
 
@@ -29,8 +22,8 @@ $params = $controller->editConfirm();
   	
 	<div class="element_wrap">
 		<ul>
-			<li><?php echo "ID:" . $_POST['todoId']; ?>
-			<input type="hidden" name="todoId" value="<?php echo $_POST['todoId']; ?>">
+			<li><?php echo "ID:" . $_POST['id']; ?>
+			<input type="hidden" name="id" value="<?php echo $_POST['id']; ?>">
 			</li>
 
 			<li><?php echo "タスク : " .  $_POST['title']; ?>
@@ -53,5 +46,6 @@ $params = $controller->editConfirm();
 	
 	<button class="button" onclick="history.back()">戻る</button>
     <a href="/index.php" class="button">タスク一覧へ</a>
+	
 </body>
 </html>
