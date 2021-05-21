@@ -6,6 +6,7 @@ require_once '/var/www/html/app/validation/TodoValidation.php';
 
 
 class TodoController {
+    public $data = array();
 
     public function index() {
 
@@ -29,22 +30,40 @@ class TodoController {
         return $todo;
     }
 
+    public function createArray() {
+
+        //POSTパラメータ取得
+        $todoId = $_POST['id'];
+        $title = $_POST['title'];
+        $detail = $_POST['detail'];
+        $deadline_at = $_POST['deadline_at'];
+                
+        //バリデーションチェック用配列
+        $data = array();
+        $data = array(
+            "id" => $todoId,
+            "title" => $title,
+            "detail" => $detail,
+            "deadline_at" => $deadline_at
+            );
+        return $data;
+    }
+
     public function confirm() {
         //POSTメッセージでなければ入力画面へリダイレクトする
         if($_SERVER["REQUEST_METHOD"] != "POST"){
             header( "Location: new.php" );
             exit();
         }
-        //POSTパラメータ取得
+        //配列とID取得
+        $data = $this->createArray();
         $todoId = $_POST['id'];
-        $title = $_POST['title'];
-        $detail = $_POST['detail'];
-        $deadline_at = $_POST['deadline_at'];
-        
+
         //ここでバリデーションクラスのcheckメソッドを呼ぶ
-        $validation = new TodoValidation; 
+        $validation = new TodoValidation;
+        $validation->setData($data); 
         $check = $validation->check();
-        
+
         //もしチェックがNGなら、再度、入力画面にリダイレクトする
 		if ( $check === false ) {
             session_start();
@@ -59,8 +78,14 @@ class TodoController {
     public function register() {
         $todo = new Todo;
 
-        //データベースへ新規登録
+        //配列とID取得
+        $data = $this->createArray();
+        $todoId = $_POST['id'];
+        
+        //セッターにデータをセットして新規登録
+        $todo->setData($data);
         $newTodo = $todo->create();
+ 
         if ( $newTodo === false ) {
             header( "Location: new.php" );
             return;
@@ -90,20 +115,19 @@ class TodoController {
             exit();
         }
 
-        //POSTパラメータ取得
+        //配列とID取得
+        $data = $this->createArray();
         $todoId = $_POST['id'];
-        $title = $_POST['title'];
-        $detail = $_POST['detail'];
-        $deadline_at = $_POST['deadline_at'];
 
         //ここでバリデーションクラスのcheckメソッドを呼ぶ
-        $validation = new TodoValidation; 
+        $validation = new TodoValidation;
+        $validation->setData($data); 
         $check = $validation->check();
-        
+       
         //もしチェックがNGなら、再度、編集画面にリダイレクトする
-		if ( $check == false ) {
+        if ( $check == false ) {
             session_start();
-                
+                   
             $_SESSION['error'] = $validation->getErrorMessages(); 
             header( "Location: edit.php?todo_id=$todoId;" );
             exit();
@@ -112,18 +136,14 @@ class TodoController {
     }
 
     public function editComplete() {
-        //POSTパラメータ取得
-        $todoId = $_POST['id'];
-        $title = $_POST['title'];
-        $detail = $_POST['detail'];
-        $deadline_at = $_POST['deadline_at'];
-
-        //セッターに値をセット
         $todo = new Todo;
-        $todo->setId($todoId);
-        $todo->setTitle($title);
-        $todo->setDetail($detail);
-        $todo->setDeadline($deadline_at);
+        
+        //配列とID取得
+        $data = $this->createArray();
+        $todoId = $_POST['id'];
+
+        //セッターにデータをセットして更新
+        $todo->setData($data);
         $editTodo = $todo->update();
 
         if ( $editTodo === false ) {

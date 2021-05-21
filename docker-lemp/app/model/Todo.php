@@ -57,11 +57,6 @@ class Todo {
     }
 
     public function create() {
-        $todo = new Todo;
-        $todo->setId($_POST['id']);
-        $todo->setTitle($_POST['title']);
-        $todo->setDetail($_POST['detail']);
-        $todo->setDeadline($_POST['deadline_at']);
 
         try {
             $db = new PDO(DSH, USER, PASSWORD);
@@ -76,11 +71,10 @@ class Todo {
                     deadline_at, 
                     created_at, updated_at) 
                     VALUES (1, 
-                    '" . $todo->getTitle() . "', 
-                    '" . $todo->getDetail() . "', 
-                    '" . $todo->getDeadline() . "', 
+                    '" . $this->getData()['title'] . "', 
+                    '" . $this->getData()['detail'] . "', 
+                    '" . $this->getData()['deadline_at'] . "', 
                     now(), now())";
-            $db->exec($sql);
             // トランザクション完了（コミット）
             $db->commit();
             $stmt = $db->prepare($sql);
@@ -120,11 +114,11 @@ class Todo {
             $updated_at = date('Y-m-d H:i:s');
             //更新
             $sql = "UPDATE todos SET 
-                                title = '" . $this->getTitle() . "',
-                                detail = '" . $this->getDetail() . "',
-                                deadline_at = '" . $this->getDeadline() . "',
+                                title = '" . $this->getData()['title'] . "',
+                                detail = '" . $this->getData()['detail'] . "',
+                                deadline_at = '" . $this->getData()['deadline_at'] . "',
                                 updated_at = '$updated_at'
-                    WHERE id = '" . $this->getId() . "' && user_id = 1";
+                    WHERE id = '" . $this->getData()['id'] . "' && user_id = 1";
             $db->exec($sql);
             // トランザクション完了（コミット）
 	        $db->commit();
@@ -137,8 +131,10 @@ class Todo {
             print ("Error:" .$e->getMessage());
             exit;
         }
-        $todo = self::findById($this->getId());
-        
+        //配列を取得する
+        $todo = self::findById($this->getData()['id']);
+        print_r($todo);
+
         //データベース接続切断
         $db = null;
         if( $todo == null ) {
@@ -146,32 +142,12 @@ class Todo {
         }
         return $todo;
     }
-
-    public function getId() {
-        return $this->todoId;
+    public function getData() {
+        return $this->data;
     }
-    public function getTitle() {
-        return $this->title;
+    public function setData($data) {
+        $this->data = $data;
     }
-    public function getDetail() {
-        return $this->detail;
-    }
-    public function getDeadline() {
-        return $this->deadline_at;
-    }
-    public function setId($todoId) {
-        $this->todoId = $todoId;
-    }
-    public function setTitle($title) {
-        $this->title = $title;
-    }
-    public function setDetail($detail) {
-        $this->detail = $detail;
-    }
-    public function setDeadline($deadline_at) {
-        $this->deadline_at = $deadline_at;
-    }
-
 }
 
 ?>
