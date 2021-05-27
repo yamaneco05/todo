@@ -1,7 +1,11 @@
 @charset "UTF-8";
 
-h1 {
+body h1 {
 	justify-content: center;
 	background-color: mistyrose;
 	color: olive;
 }
+
+p {
+	color : red;
+  }

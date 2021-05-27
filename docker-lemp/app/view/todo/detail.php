@@ -18,17 +18,16 @@ $todo = $controller->detail();
 
     <div class="element_wrap">
         <ul>
-            <li><?php echo "ID:" . $todo['id']; ?></li>
+            <li>Ｉ Ｄ  : <?php echo $todo['id']; ?></li>
 
-            <li><?php echo "タスク:" . $todo['title']; ?></li>
+            <li>タスク : <?php echo $todo['title']; ?></li>
             
-            <li><?php echo "詳細:" . $todo['detail']; ?></li>
+            <li>詳 細   : <?php echo $todo['detail']; ?></li>
             
-            <li><?php echo "しめきり:" . $todo['deadline_at'] ?></li>        
-            
-            <li><?php echo "作成日:" . $todo['created_at']; ?></li>
-            <li><?php echo "更新済？:" . $todo['updated_at']; ?></li>
-            <li><?php echo "削除済？:" . $todo['delated_at']; ?></li>
+            <li>締切日 : <?php echo $todo['deadline_at'] ?></li>        
+            <li>作成日 : <?php echo $todo['created_at']; ?></li>
+            <li>更新日 : <?php echo $todo['updated_at']; ?></li>
+            <li>削除日 : <?php echo $todo['delated_at']; ?></li>
         </ul>
     </div>
     <a href="/edit.php?todo_id=<?php echo $todo['id']; ?>">編集する</a><br>

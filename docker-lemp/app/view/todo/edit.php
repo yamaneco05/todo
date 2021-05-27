@@ -3,7 +3,7 @@ require_once '/var/www/html/app/model/Todo.php';
 require_once '/var/www/html/app/controller/TodoController.php';
 require_once '/var/www/html/app/validation/TodoValidation.php';
 $controller = new TodoController;
-$todo = $controller->edit();
+$todo = $controller->detail();
 
 session_start();
 if ( !empty($_SESSION['error']) ) {

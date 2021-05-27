@@ -7,10 +7,12 @@ require_once '/var/www/html/app/validation/TodoValidation.php';
 
 class TodoController {
     public $data = array();
+    public $todo;
+    public $todos;
 
     public function index() {
-
-        $todos = Todo::findAll();
+        $todo = new Todo;
+        $todos = $todo->findAll();
 
         return $todos;
     }
@@ -20,12 +22,13 @@ class TodoController {
         $todoId = $_GET['todo_id'];
         
         //'todo_id'に該当するレコードの存在確認
-        $isExist = Todo::isExistById($todoId);
+        $todo = new Todo;
+        $isExist = $todo->isExistById($todoId);
         if ( $isExist === false ) {
             header( "Location: ../error/404.php;" );
             return;
         }
-        $todo = Todo::findById($todoId);
+        $todo = $todo->findById($todoId);
         
         return $todo;
     }
@@ -93,20 +96,6 @@ class TodoController {
         return $newTodo;
     }
 
-    public function edit() {
-        //GETパラメータ取得
-        $todoId = $_GET['todo_id'];
-        //'todo_id'に該当するレコードの取得
-        $isExist = Todo::isExistById($todoId);
-        if ( $isExist === false ) {
-            header( "Location: ../view/error/404.php" );
-            return;
-        }
-        $todo = Todo::findById($todoId);
-        
-        return $todo;
-    }
-
     public function editConfirm() {
 
         //POSTメッセージでなければ入力画面へリダイレクトする
@@ -151,6 +140,24 @@ class TodoController {
             exit();
         }        
         return $editTodo;
+    }
+
+    public function deleteComplete() {
+        
+        $todo = new Todo;
+
+        //GETパラメータ取得
+        $todoId = $_GET['todo_id'];
+
+        $deleteTodo = $todo->delete($todoId);
+
+        //削除できているか確認
+        $deleteTodo = $todo->isExistById($todoId);
+        if ( $deleteTodo === true ) {
+            header( "Location: ../error/404.php;" );
+            return;
+        }        
+        return $todoId;
     }
 }
 

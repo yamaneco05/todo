@@ -3,7 +3,7 @@ require_once '/var/www/html/app/config/database.php';
 require_once '/var/www/html/app/controller/TodoController.php';
 
 class Todo {
-    public $todos;
+    public $todos = array();
     private $todoId;
     private $title;
     private $detail;
@@ -14,7 +14,7 @@ class Todo {
         try {
             $db = new PDO(DSH, USER, PASSWORD);
             $sql = "SELECT * FROM todos WHERE user_id = 1";
-          
+            
             $stmt = $db->prepare($sql);
             $stmt->execute();
             $todos = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -31,6 +31,7 @@ class Todo {
         try {
             $db = new PDO(DSH, USER, PASSWORD);
             $sql = "SELECT * FROM todos WHERE id = $todoId";
+
             $stmt = $db->prepare($sql);
             $stmt->execute();
             $todo = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -46,6 +47,7 @@ class Todo {
 
         $db = new PDO(DSH, USER, PASSWORD);
         $sql = "SELECT * FROM todos WHERE id = $todoId && user_id = 1";
+        
         $stmt = $db->prepare($sql);
         $stmt->execute();
         $todo = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -132,8 +134,7 @@ class Todo {
             exit;
         }
         //配列を取得する
-        $todo = self::findById($this->getData()['id']);
-        print_r($todo);
+        $todo = $this->findById($this->getData()['id']);
 
         //データベース接続切断
         $db = null;
@@ -142,11 +143,48 @@ class Todo {
         }
         return $todo;
     }
+
+    public function delete($todoId) {
+        try {
+            $db = new PDO(DSH, USER, PASSWORD);
+            //ネイティブのプリペアドステートメントを使う
+            $db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+            // 例外 を投げる
+            $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            //トランザクション開始
+	        $db->beginTransaction();
+
+            //該当データを削除
+            $sql = "DELETE FROM todos WHERE id = $todoId && user_id = 1";
+            $db->exec($sql);
+
+            //トランザクション完了（コミット）
+	        $db->commit();
+            $stmt = $db->prepare($sql);
+            $stmt->execute();
+
+        } catch (PDOException $e) {
+            //トランザクション取り消し（ロールバック）
+	        $db->rollBack();
+            print ("Error:" .$e->getMessage());
+            exit;
+        }
+
+        //データベース接続切断
+        $db = null;
+        return $db;
+    }
     public function getData() {
         return $this->data;
     }
     public function setData($data) {
         $this->data = $data;
+    }
+    public function putAway($db, $sql) {
+        $stmt = $db->prepare($sql);
+        $stmt->execute();
+        $todos = $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }
 
