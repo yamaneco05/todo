@@ -17,6 +17,13 @@ class TodoController {
         return $todos;
     }
 
+    public function executedList() {
+        $todo = new Todo;
+        $todos = $todo->findExecuted();
+
+        return $todos;
+    }
+
     public function detail() {
         //GETパラメータ取得
         $todoId = $_GET['todo_id'];
@@ -144,13 +151,18 @@ class TodoController {
 
     public function deleteComplete() {
         
-        $todo = new Todo;
-
         //GETパラメータ取得
         $todoId = $_GET['todo_id'];
 
+        //該当データが存在するのか確認
+        $todo = new Todo;
+        $isExist = $todo->isExistById($todoId);
+        if ( $isExist === false ) {
+            header( "Location: ../error/404.php;" );
+            return;
+        }
         $deleteTodo = $todo->delete($todoId);
-
+        
         //削除できているか確認
         $deleteTodo = $todo->isExistById($todoId);
         if ( $deleteTodo === true ) {
@@ -159,6 +171,30 @@ class TodoController {
         }        
         return $todoId;
     }
+
+    public function executed() {
+        
+        //GETパラメータ取得
+        $todoId = $_GET['todo_id'];
+
+        //該当データが存在するのか確認
+        $todo = new Todo;
+        $isExist = $todo->isExistById($todoId);
+        if ( $isExist === false ) {
+            header( "Location: ../error/404.php;" );
+            return;
+        }
+        $executedTodo = $todo->executed($todoId);
+        
+        //削除できているか確認
+        $executedTodo = $todo->isExistById($todoId);
+        if ( $executedTodo === true ) {
+            header( "Location: ../error/404.php;" );
+            return;
+        }        
+        return $todoId;
+    }
+
 }
 
 ?>

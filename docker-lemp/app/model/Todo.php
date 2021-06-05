@@ -8,12 +8,31 @@ class Todo {
     private $title;
     private $detail;
     private $deadline_at;
+    private $deleted_at;
+
 
     public function findAll() {
 
         try {
             $db = new PDO(DSH, USER, PASSWORD);
-            $sql = "SELECT * FROM todos WHERE user_id = 1";
+            $sql = "SELECT * FROM todos WHERE user_id = 1 && deleted_at = '0001-01-01'";
+            
+            $stmt = $db->prepare($sql);
+            $stmt->execute();
+            $todos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+          
+        } catch (PDOException $e) {
+            print ("Error:" .$e->getMessage());
+            exit;
+        }
+        return $todos;
+    }
+
+    public function findExecuted() {
+
+        try {
+            $db = new PDO(DSH, USER, PASSWORD);
+            $sql = "SELECT * FROM todos WHERE user_id = 1 && deleted_at != '0001-01-01'";
             
             $stmt = $db->prepare($sql);
             $stmt->execute();
@@ -123,9 +142,9 @@ class Todo {
                     WHERE id = '" . $this->getData()['id'] . "' && user_id = 1";
             $db->exec($sql);
             // トランザクション完了（コミット）
-	        $db->commit();
             $stmt = $db->prepare($sql);
             $stmt->execute();
+            $db->commit();
 
         } catch (PDOException $e) {
             //トランザクション取り消し（ロールバック）
@@ -160,9 +179,10 @@ class Todo {
             $db->exec($sql);
 
             //トランザクション完了（コミット）
-	        $db->commit();
             $stmt = $db->prepare($sql);
             $stmt->execute();
+            $db->commit();
+
 
         } catch (PDOException $e) {
             //トランザクション取り消し（ロールバック）
@@ -186,6 +206,43 @@ class Todo {
         $stmt->execute();
         $todos = $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function executed($todoId) {
+        try {
+            $db = new PDO(DSH, USER, PASSWORD);
+            //ネイティブのプリペアドステートメントを使う
+            $db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+            // 例外 を投げる
+            $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            //トランザクション開始
+	        $db->beginTransaction();
+            
+            // 実行した日付を取得
+            $deleted_at = date('Y-m-d H:i:s');
+            //更新
+            $sql = "UPDATE todos SET deleted_at = '$deleted_at' 
+            WHERE id = $todoId && user_id = 1";
+            
+            $db->exec($sql);
+
+            // トランザクション完了（コミット）
+            $stmt = $db->prepare($sql);
+            $stmt->execute();
+            $db->commit();
+
+        } catch (PDOException $e) {
+            //トランザクション取り消し（ロールバック）
+	        $db->rollBack();
+            print ("Error:" .$e->getMessage());
+            exit;
+        }
+
+        //データベース接続切断
+        $db = null;
+        return $todoId;
+    }
+
 }
 
 ?>
