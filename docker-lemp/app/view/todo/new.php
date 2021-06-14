@@ -39,18 +39,16 @@ if ( !empty($_SESSION['error']) ) {
         <div class="element_wrap">
         <ul>
             <li> 
-				タスク : <input type="text" name="title" value="<?php echo $_POST['title']; ?>">
+				タスク : <input type="text" name="title" /><br />
         	</li>
 
             <li>
-                詳細 : <input type="text" name="detail" value="<?php echo $_POST['detail']; ?>">
+                詳細 : <input type="text" name="detail" /><br />
             </li>
 
             <li>
-                期限 : <input type="datetime" name="deadline_at" value="<?php echo $_POST['deadline_at']; ?>">
+                期限 : <input type="datetime-local" name="deadline_at" /><br />
             </li>
-
-		    <p>※期限の入力例 : 2021年5月3日10時30分 → 2021-05-03-10-30</p>
 
         	<input type="submit" class="button" value="入力内容を確認する">
 		</ul>    

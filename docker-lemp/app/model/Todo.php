@@ -3,19 +3,19 @@ require_once '/var/www/html/app/config/database.php';
 require_once '/var/www/html/app/controller/TodoController.php';
 
 class Todo {
-    public $todos = array();
-    private $todoId;
-    private $title;
-    private $detail;
-    private $deadline_at;
-    private $deleted_at;
+    public $todos;
+    public $todoId;
+    public $title;
+    public $detail;
+    public $deadline_at;
+    public $deleted_at;
 
 
     public function findAll() {
 
         try {
             $db = new PDO(DSH, USER, PASSWORD);
-            $sql = "SELECT * FROM todos WHERE user_id = 1 && deleted_at = '0001-01-01'";
+            $sql = "SELECT * FROM todos WHERE user_id = 1 && deleted_at = '2021-01-01 00:00:00'";
             
             $stmt = $db->prepare($sql);
             $stmt->execute();
@@ -32,7 +32,7 @@ class Todo {
 
         try {
             $db = new PDO(DSH, USER, PASSWORD);
-            $sql = "SELECT * FROM todos WHERE user_id = 1 && deleted_at != '0001-01-01'";
+            $sql = "SELECT * FROM todos WHERE user_id = 1 && deleted_at != '2021-01-01 00:00:00'";
             
             $stmt = $db->prepare($sql);
             $stmt->execute();
@@ -86,25 +86,29 @@ class Todo {
             //トランザクション開始
 	        $db->beginTransaction();
             
-            $sql = "INSERT INTO todos(user_id,
+            $sql = "INSERT INTO todos(user_id, 
                     title, 
                     detail, 
                     deadline_at, 
-                    created_at, updated_at) 
+                    created_at, updated_at, deleted_at)
                     VALUES (1, 
                     '" . $this->getData()['title'] . "', 
                     '" . $this->getData()['detail'] . "', 
-                    '" . $this->getData()['deadline_at'] . "', 
-                    now(), now())";
-            // トランザクション完了（コミット）
-            $db->commit();
+                    '" . $this->getData()['deadline_at'] ."', 
+                    now(), now(), '2021-01-01')";
+
             $stmt = $db->prepare($sql);
             $stmt->execute();
+         
+           
             //最新の配列の取得
             $sql = "SELECT * FROM todos ORDER BY id DESC LIMIT 1";
             $stmt = $db->prepare($sql);
             $stmt->execute();
             $todo = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            // トランザクション完了（コミット）
+            $db->commit();
 
         } catch (PDOException $e) {
             //トランザクション取り消し（ロールバック）
@@ -140,10 +144,10 @@ class Todo {
                                 deadline_at = '" . $this->getData()['deadline_at'] . "',
                                 updated_at = '$updated_at'
                     WHERE id = '" . $this->getData()['id'] . "' && user_id = 1";
-            $db->exec($sql);
-            // トランザクション完了（コミット）
             $stmt = $db->prepare($sql);
             $stmt->execute();
+            
+            // トランザクション完了（コミット）
             $db->commit();
 
         } catch (PDOException $e) {
@@ -179,11 +183,7 @@ class Todo {
             $db->exec($sql);
 
             //トランザクション完了（コミット）
-            $stmt = $db->prepare($sql);
-            $stmt->execute();
             $db->commit();
-
-
         } catch (PDOException $e) {
             //トランザクション取り消し（ロールバック）
 	        $db->rollBack();
@@ -200,11 +200,6 @@ class Todo {
     }
     public function setData($data) {
         $this->data = $data;
-    }
-    public function putAway($db, $sql) {
-        $stmt = $db->prepare($sql);
-        $stmt->execute();
-        $todos = $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function executed($todoId) {
@@ -223,12 +218,10 @@ class Todo {
             //更新
             $sql = "UPDATE todos SET deleted_at = '$deleted_at' 
             WHERE id = $todoId && user_id = 1";
-            
-            $db->exec($sql);
-
-            // トランザクション完了（コミット）
             $stmt = $db->prepare($sql);
             $stmt->execute();
+            
+            // トランザクション完了（コミット）
             $db->commit();
 
         } catch (PDOException $e) {

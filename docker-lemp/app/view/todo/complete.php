@@ -18,11 +18,11 @@ $todo = $controller->register();
 
     <div class="element_wrap">
 		<ul>
-			<li><?php echo "タスク : " . $todo['title'] ?></li>
+			<li>タスク : <?php echo $todo['title'] ?></li>
 
-			<li><?php echo "詳細 : " .  $todo['detail'] ?></li>
+			<li>詳細 : <?php echo $todo['detail'] ?></li>
 
-			<li><?php echo "期限 : " . $todo['deadline_at'] ?></li>
+			<li>期限 : <?php echo $todo['deadline_at'] ?></li>
 		</ul>
 	</div>
 		

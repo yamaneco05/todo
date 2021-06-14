@@ -76,4 +76,4 @@ show variables like 'character%'; //文字コードを表示
 alter table todos convert to character set utf8;
 alter table users convert to character set utf8;
 
-UPDATE todos SET deleted_at = '0001-01-01' WHERE user_id = 1;
+UPDATE todos SET deleted_at = '2021-01-01' WHERE user_id = 1;

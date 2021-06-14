@@ -6,9 +6,13 @@ require_once '/var/www/html/app/validation/TodoValidation.php';
 
 
 class TodoController {
-    public $data = array();
+    public $data;
     public $todo;
     public $todos;
+    public $title;
+    public $detail;
+    public $deadline_at;
+    public $todoId;
 
     public function index() {
         $todo = new Todo;
@@ -47,7 +51,7 @@ class TodoController {
         $title = $_POST['title'];
         $detail = $_POST['detail'];
         $deadline_at = $_POST['deadline_at'];
-                
+
         //バリデーションチェック用配列
         $data = array();
         $data = array(
@@ -67,7 +71,6 @@ class TodoController {
         }
         //配列とID取得
         $data = $this->createArray();
-        $todoId = $_POST['id'];
 
         //ここでバリデーションクラスのcheckメソッドを呼ぶ
         $validation = new TodoValidation;
@@ -86,13 +89,11 @@ class TodoController {
     }
 
     public function register() {
-        $todo = new Todo;
-
         //配列とID取得
         $data = $this->createArray();
-        $todoId = $_POST['id'];
-        
+
         //セッターにデータをセットして新規登録
+        $todo = new Todo;
         $todo->setData($data);
         $newTodo = $todo->create();
  

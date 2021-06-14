@@ -27,7 +27,7 @@ $todo = $controller->detail();
             <li>締切日 : <?php echo $todo['deadline_at'] ?></li>        
             <li>作成日 : <?php echo $todo['created_at']; ?></li>
             <li>更新日 : <?php echo $todo['updated_at']; ?></li>
-            <li>削除日 : <?php echo $todo['delated_at']; ?></li>
+            <li>実行日 : <?php echo $todo['deleted_at']; ?></li>
         </ul>
     </div>
     <a href="/edit.php?todo_id=<?php echo $todo['id']; ?>">編集する</a><br>

@@ -18,7 +18,7 @@ if ( !empty($_SESSION['error']) ) {
 <head>
   	<meta charset="UTF-8">
   	<title>PHP TEST6</title>
-  	<link rel="stylesheet" href="/var/www/html/app/public/css/style.css" type="text/css">
+  	<link rel="stylesheet" href="http://localhost:8000/view/error/style.css">
 </head>
 
 <body>
@@ -41,25 +41,26 @@ if ( !empty($_SESSION['error']) ) {
   	<form action="editConfirm.php" method="POST">
     <div class="element_wrap">
     <ul>
-        <li><?php echo "ID:" . $todo['id']; ?></li>
+        <li>ID:<?php echo $todo['id']; ?></li>
         <input type="hidden" name="id" value="<?php echo $todo['id']; ?>">
 
-        <li><?php echo "タスク:" ?>
-        	<input type="text" name="title" value="<?php echo $todo['title']; ?>">
+        <li>タスク : 
+    		<input type="text" name="title" value="<?php echo $todo['title']; ?>"><br>
         </li>
 
-        <li><?php echo "詳細:" ?>
-        	<input type="text" name="detail" value="<?php echo $todo['detail']; ?>">
+        <li>詳細 : 
+        	<input type="text" name="detail" value="<?php echo $todo['detail']; ?>"><br><br>
         </li>
 
-        <li><?php echo "しめきり:" ?>
-        	<input type="datetime" name="deadline_at" value="<?php echo $todo['deadline_at']; ?>">
-        </li>
+        <li>しめきり: 
+			<input type="datetime" name="deadline_at" value="<?php echo $todo['deadline_at']; ?>">
+		</li>
         
-        <li><?php echo "作成日:" . $todo['created_at']; ?></li>
-        <li><?php echo "更新日:" . $todo['updated_at']; ?></li>
-        <li><?php echo "削除日:" . $todo['delated_at']; ?></li>
-		
+        <li>作成日 : <?php echo $todo['created_at']; ?></li>
+        <li>更新日 : <?php echo $todo['updated_at']; ?></li>
+		<li>実行日 : <?php echo $todo['deleted_at']; ?></li>
+
+
 		<p>編集内容を確認しますか？</p>
     	<input type="submit" class="button" value="確認">
 		<button class="button" onclick="history.back()">戻る</button>

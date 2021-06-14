@@ -1,5 +1,5 @@
 <?php 
-require_once '/var/www/html/app/controller/TodoController.php'; 
+require_once '/var/www/html/app/controller/TodoController.php';
 $controller = new TodoController;
 $todos = array();
 $todos = $controller->index();
@@ -10,7 +10,7 @@ $todos = $controller->index();
 <head>
   	<meta charset="UTF-8">
   	<title>PHP TEST</title>
-  	<link rel="stylesheet" href="http://localhost:8000/var/www/html/app/public/css/style.css?<?php echo date('Ymd-His');?>" type='text/css'>
+  	<link rel="stylesheet" type="text/css" href="../../public/css/style.css" />
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 </head>
 <body>
@@ -26,48 +26,48 @@ $todos = $controller->index();
 			<ul>
 				<li>ID : <?php echo $todo['id']; ?></li>
 				
-				<li><button type="button" onclick="location.href='/delete.php?todo_id=<?php echo $todo['id']; ?>'" 
+				<li><button type="button" onclick="location.href='/delete.php?todo_id=<?php echo $todo['id']; ?>'"
 				style="position: relative; left: 12%; top: 0px;">削除</button>
 				</li>
 
-				<li><input type="checkbox" name="id" value="<?php echo $todo['id']; ?>" />
-				<div id="executed"></div>
+				<li><input type="checkbox" name="status-checkbox" value="<?php echo $todo['id']; ?>" />
 				タスク : <a href="/detail.php?todo_id=<?php echo $todo['id']; ?>">
 				<?php echo $todo['title']; ?></a></li>
 
 				<li>詳細 : <?php echo $todo['detail']; ?></li>
-				
 				<li>しめきり : <?php echo $todo['deadline_at']?></li>
 			</ul>
 		
    		</div>
-  	<?php endforeach; ?>
-
+		   <?php endforeach; ?>
 	<script>
+		//$(document).ready(function(){
+			$('[name="status-checkbox"]').change(function(){
+				let todo_id = <?php echo $todo['id']; ?>
 
-		$('[name="id"]').change(function(){
-			var aryCmp = [];
-            $('[name="id"]:checked').each(function(index, element){
-                aryCmp.push($(element).val());
-            });
-            $('#executed').html(aryCmp.join(','));
-        	
-		$.ajax({        
-        	url: "ajax.php",
-        	type: 'POST',
-        	data: {val:'aryCmp'},
-        	timeout: 10000,
-        	dataType: 'number'
-    	}).done(function (data) { //Ajax通信に成功したときの処理
-        	$('#executed').html(data);
-    	}).fail(function (data) { //Ajax通信に失敗したときの処理
-        	alert('error');
-    	}).always(function (data) { //処理が完了した場合の処理
-        	alert('always');    
-   		});
-	});
+				//わかりにくかったら、ここでdata を作る
+				let data = {todo_id};
+				//console.log(data);
+				
+				$.ajax({        
+					url: "ajax.php",
+					type: 'POST',
+					data: data, //dataを渡す
+					timeout: 10000,
+					dataType: 'json'
+				}).done(function (data) { //Ajax通信に成功したときの処理
+					console.log("success", data);
+					
+				}).fail(function (data) { //Ajax通信に失敗したときの処理
+					console.log("fail", data);
+					alert('error');
+				}).always(function (data) { //処理が完了した場合の処理
+					console.log("always", data);
+					alert('always');
+				})
+				});
+		//});
 
 	</script>
-  
 </body>
 </html>

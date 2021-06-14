@@ -16,7 +16,7 @@ $params = $controller->editComplete();
 </head>
 
 <body>
-	<h1>削除完了</h1>
+	<h1>登録完了</h1>
 
     <div class="element_wrap">
 		<li><?php echo "タスク : " . $params['title'] ?></li>
