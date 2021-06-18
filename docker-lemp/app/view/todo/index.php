@@ -21,7 +21,7 @@ $todos = $controller->index();
 
   	<?php foreach($todos as $todo): ?>
     	
-		<div class="element_wrap">
+		<div id="ajax">
 
 			<ul>
 				<li>ID : <?php echo $todo['id']; ?></li>
@@ -41,32 +41,32 @@ $todos = $controller->index();
    		</div>
 		   <?php endforeach; ?>
 	<script>
-		//$(document).ready(function(){
-			$('[name="status-checkbox"]').change(function(){
-				let todo_id = <?php echo $todo['id']; ?>
-
-				//わかりにくかったら、ここでdata を作る
-				let data = {todo_id};
-				//console.log(data);
+	
+		$('[name="status-checkbox"]').change(function(){
+			let todo_id = $(this).val();
+			
+			//ここでdata を作る
+			let data = {todo_id};
 				
-				$.ajax({        
-					url: "ajax.php",
-					type: 'POST',
-					data: data, //dataを渡す
-					timeout: 10000,
-					dataType: 'json'
-				}).done(function (data) { //Ajax通信に成功したときの処理
-					console.log("success", data);
-					
-				}).fail(function (data) { //Ajax通信に失敗したときの処理
-					console.log("fail", data);
-					alert('error');
-				}).always(function (data) { //処理が完了した場合の処理
-					console.log("always", data);
-					alert('always');
-				})
-				});
-		//});
+			$.ajax({        
+				url: "ajax.php",
+				type: 'POST',
+				data: data, //dataを渡す
+				timeout: 10000,
+				dataType: 'json'
+			}).done(function (data) { //Ajax通信に成功したときの処理
+				$("#ajax").html(data);
+				console.log("success", data);
+				window.location.href = 'index.php';
+			}).fail(function (data) { //Ajax通信に失敗したときの処理
+				console.log("fail", data);
+				//alert('error');
+			}).always(function (data) { //処理が完了した場合の処理
+				console.log("always", data);
+				//alert('always');
+			})
+		});
+	
 
 	</script>
 </body>

@@ -23,8 +23,9 @@ $deleteTodo = $controller->deleteComplete();
 
 	<p>ID : <?php echo $deleteTodo; ?>を削除しました。</p>
 
+	<a href="/executed.php" class="button">実行済みリストへ</a><br>
+	<a href="/index.php" class="button">タスク一覧へ</a><br>
 	<a href="/new.php" class="button">タスクを追加する</a>
-	<a href="/index.php" class="button">タスク一覧へ</a>
 	
 </body>
 </html>

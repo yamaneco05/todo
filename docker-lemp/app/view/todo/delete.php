@@ -35,6 +35,7 @@ $todo = $controller->detail();
 		</ul>
     </div>
 	</form>
+	<a href="/executed.php" class="button">実行済みリストへ</a><br>
 	<a href="/index.php" class="button">タスク一覧へ</a>
     
 </body>

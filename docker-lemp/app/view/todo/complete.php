@@ -28,7 +28,7 @@ $todo = $controller->register();
 		
 	<p>登録しました。</p>
 
-	<a href="/new.php" class="button">タスクを追加する</a>
+	<a href="/new.php" class="button">タスクを追加する</a><br>
 	<a href="/index.php" class="button">タスク一覧へ</a>
 </body>
 </html>
