@@ -150,10 +150,7 @@ class TodoController {
         return $editTodo;
     }
 
-    public function deleteComplete() {
-        
-        //GETパラメータ取得
-        $todoId = $_GET['todo_id'];
+    public function deleteComplete($todoId) {
 
         //該当データが存在するのか確認
         $todo = new Todo;
@@ -162,15 +159,15 @@ class TodoController {
             header( "Location: ../error/404.php;" );
             return;
         }
-        $deleteTodo = $todo->delete($todoId);
+        $todo->delete($todoId);
         
         //削除できているか確認
-        $deleteTodo = $todo->isExistById($todoId);
-        if ( $deleteTodo === true ) {
+        $isExsist = $todo->isExistById($todoId);
+        if ( $isExsist === true ) {
             header( "Location: ../error/404.php;" );
             return;
-        }        
-        return $todoId;
+        }
+        return true;
     }
 
     public function executed() {

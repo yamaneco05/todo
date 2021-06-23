@@ -193,7 +193,7 @@ class Todo {
 
         //データベース接続切断
         $db = null;
-        return $db;
+        return true;
     }
     public function getData() {
         return $this->data;

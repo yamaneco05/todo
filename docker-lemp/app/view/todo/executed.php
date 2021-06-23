@@ -11,6 +11,7 @@ $todos = $controller->executedList();
   	<meta charset="UTF-8">
   	<title>PHP TEST10</title>
   	<link rel="stylesheet" href="http://localhost:8000/var/www/html/app/public/css/style.css?<?php echo date('Ymd-His');?>" type='text/css'>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 </head>
 <body>
   	<h1>実行済リスト</h1>
@@ -26,7 +27,7 @@ $todos = $controller->executedList();
 			<ul>
 				<li>ID : <?php echo $todo['id']; ?></li>
 				
-				<li><button type="button" onclick="location.href='/delete.php?todo_id=<?php echo $todo['id']; ?>'" 
+				<li><button type="submit" name="delete-botton" value="<?php echo $todo['id']; ?>"
 				style="position: relative; left: 12%; top: 0px;">削除</button>
 				</li>
 
@@ -43,6 +44,33 @@ $todos = $controller->executedList();
 		
    		</div>
   	<?php endforeach; ?>
+
+	  <script>
+	  		$('[name="delete-botton"]').on('click', function(){
+			let todo_id = $(this).val();
+			window.confirm('ID: '+ todo_id +
+			'の「タスク内容」を削除してもよろしいですか？');
+
+			//ここでdata を作る
+			let data = {todo_id};
+				
+			$.ajax({        
+				url: "delete.php",
+				type: 'POST',
+				data: data, //dataを渡す
+				timeout: 10000,
+				dataType: 'json'
+			}).done(function (data) { //Ajax通信に成功したときの処理
+				console.log("success", data);
+				window.location.href = `deleteComplete.php?todo_id=${todo_id}`;
+
+			}).fail(function (data) { //Ajax通信に失敗したときの処理
+				console.log("fail", data);
+			}).always(function (data) { //処理が完了した場合の処理
+				console.log("always", data);
+			})
+		});
+	  </script>
   
 </body>
 </html>
