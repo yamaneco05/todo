@@ -1,9 +1,61 @@
 @charset "UTF-8";
 
-body h1 {
-	justify-content: center;
-	background-color: mistyrose;
-	color: olive;
+body {
+	padding: 20px;
+	text-align: center;
+}
+
+h1 {
+	margin-bottom: 20px;
+	padding: 20px 0;
+	color: #209eff;
+	font-size: 200%;
+	border-top: 1px solid #999;
+	border-bottom: 1px solid #999;
+}
+
+.c1 ul{
+	margin-bottom: 10px;
+	padding: 10px 0;
+	border-top: 1px solid #999;
+	text-align: left;
+}
+
+#c2 li{
+	text-align: left;
+	margin-left: auto;
+	margin-right: auto;
+	width: 300px;
+}
+
+#c3 li{
+	float: none;
+}
+
+#c4 li{
+	float: right;
+}
+
+/* new.php 新規登録フォーム */
+input[type=text] {
+	padding: 5px 10px;
+	font-size: 96%;
+	border: none;
+	border-radius: 3px;
+	background: #ddf0ff;
+}
+
+input[type=datetime-local] {
+	padding: 5px 10px;
+	
+	font-size: 96%;
+	border: none;
+	border-radius: 3px;
+	background: #ddf0ff;
+}
+
+li {
+	line-height: 2.5em;
 }
 
 p {

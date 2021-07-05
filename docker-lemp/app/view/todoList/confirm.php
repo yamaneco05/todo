@@ -10,16 +10,16 @@ $params = $controller->confirm();
 <head>
   	<meta charset="UTF-8">
   	<title>PHP TEST5</title>
-  	<link rel="stylesheet" href="/var/www/html/app/public/css/style.css" type="text/css" media="all">
+  	<link rel="stylesheet" href="/../../public/css/style.css" type="text/css" media="all">
 </head>
 
 <body>
   	<h1>新しいタスクを追加する</h1>
   
-  	<form action="complete.php" method="POST">
+  	<form action="/view/todoList/complete.php" method="POST">
     
-    <div class="element_wrap">
-		<ul>
+    <div class="element_wrap" id="c1">
+		<ul id="c2">
 			<li>タスク : <?php echo $_POST['title']; ?>
 			<input type="hidden" name="title" value="<?php echo $_POST['title']; ?>" />
 				
@@ -42,6 +42,6 @@ $params = $controller->confirm();
     </form>
 
     <button class="button" onclick="history.back()">戻る</button>
-    <a href="/index.php" class="button">タスク一覧へ</a>
+    <a href="/view/todoList/index.php" class="button">タスク一覧へ</a>
 </body>
 </html>

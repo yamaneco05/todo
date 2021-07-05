@@ -77,3 +77,8 @@ alter table todos convert to character set utf8;
 alter table users convert to character set utf8;
 
 UPDATE todos SET deleted_at = '2021-01-01' WHERE user_id = 1;
+
+UPDATE users SET deleted_at = '2020-01-01 00:00:00';
+
+-- usersテーブルを見る
+SELECT * FROM users;

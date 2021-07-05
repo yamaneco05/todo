@@ -14,9 +14,9 @@ class TodoController {
     public $deadline_at;
     public $todoId;
 
-    public function index() {
+    public function index($userId) {
         $todo = new Todo;
-        $todos = $todo->findAll();
+        $todos = $todo->findAll($userId);
 
         return $todos;
     }

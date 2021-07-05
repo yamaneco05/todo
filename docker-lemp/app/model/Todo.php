@@ -9,13 +9,14 @@ class Todo {
     public $detail;
     public $deadline_at;
     public $deleted_at;
+    public $userId;
 
 
-    public function findAll() {
+    public function findAll($userId) {
 
         try {
             $db = new PDO(DSH, USER, PASSWORD);
-            $sql = "SELECT * FROM todos WHERE user_id = 1 && deleted_at = '2021-01-01 00:00:00'";
+            $sql = "SELECT * FROM todos WHERE user_id = $userId && deleted_at = '2021-01-01 00:00:00'";
             
             $stmt = $db->prepare($sql);
             $stmt->execute();
@@ -60,6 +61,23 @@ class Todo {
             exit;
         }
         return $todo;
+    }
+
+    public function findByMail($mail) {
+
+        try {
+            $db = new PDO(DSH, USER, PASSWORD);
+            $sql = "SELECT * FROM users WHERE mail = '$mail'";
+
+            $stmt = $db->prepare($sql);
+            $stmt->execute();
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+          
+        } catch (PDOException $e) {
+            print ("Error:" .$e->getMessage());
+            exit;
+        }
+        return $user;
     }
 
     public function isExistById($todoId) {

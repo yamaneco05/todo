@@ -9,15 +9,15 @@ $todo = $controller->detail();
 <html>
 <head>
   	<meta charset="UTF-8">
-  	<link rel="stylesheet" href="/var/www/html/app/public/css/style.css" type="text/css" media="all">
+  	<link rel="stylesheet" href="/../../public/css/style.css" type="text/css" media="all">
   	<title>PHP TEST2</title>
 </head>
 
 <body>
     <h1>タスクの詳細</h1>
 
-    <div class="element_wrap">
-        <ul>
+    <div class="element_wrap" id="c1">
+        <ul id="c2">
             <li>Ｉ Ｄ  : <?php echo $todo['id']; ?></li>
 
             <li>タスク : <?php echo $todo['title']; ?></li>
@@ -30,8 +30,8 @@ $todo = $controller->detail();
             <li>実行日 : <?php echo $todo['deleted_at']; ?></li>
         </ul>
     </div>
-    <a href="/edit.php?todo_id=<?php echo $todo['id']; ?>">編集する</a><br>
-	<a href="/index.php" class="button">タスク一覧へ</a>
+    <a href="/view/todoList/edit.php?todo_id=<?php echo $todo['id']; ?>">編集する</a><br>
+	<a href="/view/todoList/index.php" class="button">タスク一覧へ</a>
     
 </body>
 

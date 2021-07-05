@@ -12,16 +12,16 @@ $todo = $controller->editConfirm();
 <head>
   <meta charset="UTF-8">
   <title>PHP TEST7</title>
-  <link rel="stylesheet" href="/var/www/html/app/public/css/style.css" type="text/css" media="all">
+  <link rel="stylesheet" href="/../../public/css/style.css" type="text/css" media="all">
 </head>
 
 <body>
   	<h1>編集内容を確認する</h1>
 	
-  	<form action="editComplete.php" method="POST">
+  	<form action="/view/todoList/editComplete.php" method="POST">
   	
-	<div class="element_wrap">
-		<ul>
+	<div class="element_wrap" id="c1">
+		<ul id="c2">
 			<li><?php echo "ID:" . $_POST['id']; ?>
 			<input type="hidden" name="id" value="<?php echo $_POST['id']; ?>">
 			</li>
@@ -45,7 +45,7 @@ $todo = $controller->editConfirm();
     </form>
 	
 	<button class="button" onclick="history.back()">戻る</button>
-    <a href="/index.php" class="button">タスク一覧へ</a>
+    <a href="/view/todoList/index.php" class="button">タスク一覧へ</a>
 	
 </body>
 </html>

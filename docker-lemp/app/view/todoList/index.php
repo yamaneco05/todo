@@ -1,8 +1,20 @@
-<?php 
+<?php
+require_once '/var/www/html/app/model/Todo.php';
+require_once '/var/www/html/app/view/login/LoginController.php';
 require_once '/var/www/html/app/controller/TodoController.php';
-$controller = new TodoController;
-$todos = array();
-$todos = $controller->index();
+
+session_start();
+if ( !empty($_SESSION['userInfo']) ) {
+  	$userInfo = $_SESSION['userInfo'];
+}
+$userId = $userInfo['id'];
+$todo = new Todo;
+$todos = $todo->findAll($userId);
+
+if ( empty($_SESSION['userInfo']) ) {
+	header( "Location: ../../view/login/login.php" );
+}
+
 ?>
 
 <!DOCTYPE>
@@ -10,28 +22,28 @@ $todos = $controller->index();
 <head>
   	<meta charset="UTF-8">
   	<title>PHP TEST</title>
-  	<link rel="stylesheet" type="text/css" href="../../public/css/style.css" />
+  	<link rel="stylesheet" type="text/css" href="/../../public/css/style.css" />
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 </head>
 <body>
   	<h1>TODOリスト</h1>
 
-  	<a href="/new.php" class="button">新しいタスクを追加する</a><br>
-	<a href="/executed.php" class="button">実行済みリストへ</a>
+  	<a href="/view/todoList/new.php" class="button">新しいタスクを追加する</a><br>
+	<a href="/view/todoList/executed.php" class="button">実行済みリストへ</a>
 
   	<?php foreach($todos as $todo): ?>
     	
-		<div id="ajax">
+		<div id="ajax" class="c1" >
 
-			<ul>
-				<li>ID : <?php echo $todo['id']; ?></li>
+			<ul id="c2">
+				<li id="c3">ID : <?php echo $todo['id']; ?></li>
 				
-				<li><button type="submit" name="delete-botton" value="<?php echo $todo['id']; ?>"
+				<li id="c4"><button type="submit" name="delete-botton" value="<?php echo $todo['id']; ?>"
 				style="position: relative; left: 12%; top: 0px;">削除</button>
 				</li>
 
 				<li><input type="checkbox" name="status-checkbox" value="<?php echo $todo['id']; ?>" />
-				タスク : <a href="/detail.php?todo_id=<?php echo $todo['id']; ?>">
+				タスク : <a href="/view/todoList/detail.php?todo_id=<?php echo $todo['id']; ?>">
 				<?php echo $todo['title']; ?></a></li>
 
 				<li>詳細 : <?php echo $todo['detail']; ?></li>
@@ -50,14 +62,14 @@ $todos = $controller->index();
 			let data = {todo_id};
 				
 			$.ajax({        
-				url: "delete.php",
+				url: "/../../api/delete.php",
 				type: 'POST',
 				data: data, //dataを渡す
 				timeout: 10000,
 				dataType: 'json'
 			}).done(function (data) { //Ajax通信に成功したときの処理
 				console.log("success", data);
-				window.location.href = `deleteComplete.php?todo_id=${todo_id}`;
+				window.location.href = `/view/todoList/deleteComplete.php?todo_id=${todo_id}`;
 			}).fail(function (data) { //Ajax通信に失敗したときの処理
 				console.log("fail", data);
 
@@ -73,7 +85,7 @@ $todos = $controller->index();
 			let data = {todo_id};
 				
 			$.ajax({        
-				url: "ajax.php",
+				url: "/../../api/changeStatus.php",
 				type: 'POST',
 				data: data, //dataを渡す
 				timeout: 10000,
@@ -81,7 +93,7 @@ $todos = $controller->index();
 			}).done(function (data) { //Ajax通信に成功したときの処理
 				$("#ajax").html(data);
 				console.log("success", data);
-				window.location.href = 'index.php';
+				window.location.href = './index.php';
 			}).fail(function (data) { //Ajax通信に失敗したときの処理
 				console.log("fail", data);
 			}).always(function (data) { //処理が完了した場合の処理

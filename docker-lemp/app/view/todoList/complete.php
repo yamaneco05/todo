@@ -10,14 +10,14 @@ $todo = $controller->register();
 <head>
   	<meta charset="UTF-8">
   	<title>PHP TEST6</title>
-  	<link rel="stylesheet" href="/var/www/html/app/public/css/style.css" type="text/css" media="all">
+  	<link rel="stylesheet" href="/../../public/css/style.css" type="text/css" media="all">
 </head>
 
 <body>
 	<h1>新しいタスクを追加する</h1>
 
-    <div class="element_wrap">
-		<ul>
+    <div class="element_wrap" id="c1">
+		<ul id="c2">
 			<li>タスク : <?php echo $todo['title'] ?></li>
 
 			<li>詳細 : <?php echo $todo['detail'] ?></li>
@@ -28,7 +28,7 @@ $todo = $controller->register();
 		
 	<p>登録しました。</p>
 
-	<a href="/new.php" class="button">タスクを追加する</a><br>
-	<a href="/index.php" class="button">タスク一覧へ</a>
+	<a href="/view/todoList/new.php" class="button">タスクを追加する</a><br>
+	<a href="/view/todoList/index.php" class="button">タスク一覧へ</a>
 </body>
 </html>

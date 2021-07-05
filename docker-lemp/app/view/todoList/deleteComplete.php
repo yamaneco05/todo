@@ -13,19 +13,19 @@ $todoId = $_GET['todo_id'];
 <head>
   <meta charset="UTF-8">
   <title>PHP TEST10</title>
-  <link rel="stylesheet" href="/var/www/html/app/public/css/style.css" type="text/css" media="all">
+  <link rel="stylesheet" href="/../../public/css/style.css" type="text/css" media="all">
 </head>
 
 <body>
-	<h1>削除完了</h1>
+	<h1 id="c1">削除完了</h1>
 
 
 
 	<p>ID : <?php echo $todoId; ?>を削除しました。</p>
 
-	<a href="/executed.php" class="button">実行済みリストへ</a><br>
-	<a href="/index.php" class="button">タスク一覧へ</a><br>
-	<a href="/new.php" class="button">タスクを追加する</a>
+	<a href="/view/todoList/executed.php" class="button">実行済みリストへ</a><br>
+	<a href="/view/todoList/index.php" class="button">タスク一覧へ</a><br>
+	<a href="/view/todoList/new.php" class="button">タスクを追加する</a>
 	
 </body>
 </html>

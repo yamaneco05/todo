@@ -1,5 +1,11 @@
 <?php 
 require_once '/var/www/html/app/controller/TodoController.php'; 
+if ( !empty($_SESSION['userInfo']) ) {
+	$userInfo = $_SESSION['userInfo'];
+}
+
+$userId = $userInfo['id'];
+
 $controller = new TodoController;
 $todos = array();
 $todos = $controller->executedList();
@@ -10,28 +16,28 @@ $todos = $controller->executedList();
 <head>
   	<meta charset="UTF-8">
   	<title>PHP TEST10</title>
-  	<link rel="stylesheet" href="http://localhost:8000/var/www/html/app/public/css/style.css?<?php echo date('Ymd-His');?>" type='text/css'>
+  	<link rel="stylesheet" href="/../../public/css/style.css" type='text/css'>
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 </head>
 <body>
   	<h1>実行済リスト</h1>
 
-  	<a href="/new.php" class="button">新しいタスクを追加する</a><br>
-	<a href="/index.php" class="button">TODOリストへ</a>
+  	<a href="/view/todoList/new.php" class="button">新しいタスクを追加する</a><br>
+	<a href="/view/todoList/index.php" class="button">TODOリストへ</a>
 
 
   	<?php foreach($todos as $todo): ?>
     	
-		<div class="element_wrap">
+		<div class="c1">
 
-			<ul>
+			<ul id="c2">
 				<li>ID : <?php echo $todo['id']; ?></li>
 				
 				<li><button type="submit" name="delete-botton" value="<?php echo $todo['id']; ?>"
 				style="position: relative; left: 12%; top: 0px;">削除</button>
 				</li>
 
-				<li>タスク : <a href="/detail.php?todo_id=<?php echo $todo['id']; ?>">
+				<li>タスク : <a href="/view/todoList/detail.php?todo_id=<?php echo $todo['id']; ?>">
 				<?php echo $todo['title']; ?></a></li>
 
 				<li>詳細 : <?php echo $todo['detail']; ?></li>
@@ -55,14 +61,14 @@ $todos = $controller->executedList();
 			let data = {todo_id};
 				
 			$.ajax({        
-				url: "delete.php",
+				url: "/../../api/delete.php",
 				type: 'POST',
 				data: data, //dataを渡す
 				timeout: 10000,
 				dataType: 'json'
 			}).done(function (data) { //Ajax通信に成功したときの処理
 				console.log("success", data);
-				window.location.href = `deleteComplete.php?todo_id=${todo_id}`;
+				window.location.href = `/view/todoList/deleteComplete.php?todo_id=${todo_id}`;
 
 			}).fail(function (data) { //Ajax通信に失敗したときの処理
 				console.log("fail", data);
