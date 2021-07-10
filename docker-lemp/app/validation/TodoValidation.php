@@ -1,6 +1,4 @@
 <?php
-require_once '/var/www/html/app/model/Todo.php';
-require_once '/var/www/html/app/controller/TodoController.php';
 
 class BaseValidation {
 
@@ -17,7 +15,7 @@ class TodoValidation extends BaseValidation{
     
     public function check() {
 
-        if( $this->getData()['title'] === "") {
+        if( $this->data['title'] === "") {
             $this->errors[] = "タスクが入力されていません。\n戻るボタンで戻り、タスクを入力してください。";
         }
         if( !is_string($this->data['title'])) {

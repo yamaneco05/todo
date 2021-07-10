@@ -220,7 +220,7 @@ class Todo {
         $this->data = $data;
     }
 
-    public function executed($todoId) {
+    public function executed($todoId, $userId) {
         try {
             $db = new PDO(DSH, USER, PASSWORD);
             //ネイティブのプリペアドステートメントを使う
@@ -235,7 +235,7 @@ class Todo {
             $deleted_at = date('Y-m-d H:i:s');
             //更新
             $sql = "UPDATE todos SET deleted_at = '$deleted_at' 
-            WHERE id = $todoId && user_id = 1";
+            WHERE id = $todoId && user_id = $userId";
             $stmt = $db->prepare($sql);
             $stmt->execute();
             

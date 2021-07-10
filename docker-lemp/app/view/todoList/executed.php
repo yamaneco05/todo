@@ -1,4 +1,4 @@
-<?php 
+<?php
 require_once '/var/www/html/app/controller/TodoController.php'; 
 if ( !empty($_SESSION['userInfo']) ) {
 	$userInfo = $_SESSION['userInfo'];
@@ -23,19 +23,21 @@ $todos = $controller->executedList();
   	<h1>実行済リスト</h1>
 
   	<a href="/view/todoList/new.php" class="button">新しいタスクを追加する</a><br>
-	<a href="/view/todoList/index.php" class="button">TODOリストへ</a>
-
+	<a href="/view/todoList/index.php" class="button">TODOリストへ</a><br>
+	<a href="/view/login/login.php" class="button">ログアウト</a>
 
   	<?php foreach($todos as $todo): ?>
     	
 		<div class="c1">
 
 			<ul id="c2">
-				<li>ID : <?php echo $todo['id']; ?></li>
-				
-				<li><button type="submit" name="delete-botton" value="<?php echo $todo['id']; ?>"
-				style="position: relative; left: 12%; top: 0px;">削除</button>
-				</li>
+				<li><ul class="side">
+					<li>ID : <?php echo $todo['id']; ?></li>
+					
+					<li><button type="submit" name="delete-botton" value="<?php echo $todo['id']; ?>"
+					style="position: relative; left: 12%; top: 0px;">削除</button>
+					</li>
+				</ul></li>
 
 				<li>タスク : <a href="/view/todoList/detail.php?todo_id=<?php echo $todo['id']; ?>">
 				<?php echo $todo['title']; ?></a></li>
@@ -54,27 +56,32 @@ $todos = $controller->executedList();
 	  <script>
 	  		$('[name="delete-botton"]').on('click', function(){
 			let todo_id = $(this).val();
-			window.confirm('ID: '+ todo_id +
-			'の「タスク内容」を削除してもよろしいですか？');
+			if(window.confirm('ID: '+ todo_id +
+			'の「タスク内容」を削除してもよろしいですか？')) {
 
-			//ここでdata を作る
-			let data = {todo_id};
-				
-			$.ajax({        
-				url: "/../../api/delete.php",
-				type: 'POST',
-				data: data, //dataを渡す
-				timeout: 10000,
-				dataType: 'json'
-			}).done(function (data) { //Ajax通信に成功したときの処理
-				console.log("success", data);
-				window.location.href = `/view/todoList/deleteComplete.php?todo_id=${todo_id}`;
+				//ここでdata を作る
+				let data = {todo_id};
+					
+				$.ajax({        
+					url: "/../../api/delete.php",
+					type: 'POST',
+					data: data, //dataを渡す
+					timeout: 10000,
+					dataType: 'json'
+				}).done(function (data) { //Ajax通信に成功したときの処理
+					console.log("success", data);
+					window.location.href = `/view/todoList/deleteComplete.php?todo_id=${todo_id}`;
+				}).fail(function (data) { //Ajax通信に失敗したときの処理
+					console.log("fail", data);
 
-			}).fail(function (data) { //Ajax通信に失敗したときの処理
-				console.log("fail", data);
-			}).always(function (data) { //処理が完了した場合の処理
-				console.log("always", data);
-			})
+				}).always(function (data) { //処理が完了した場合の処理
+					console.log("always", data);
+				})
+
+			} else {
+				window.alert('キャンセルされました');
+				return false;
+			}
 		});
 	  </script>
   

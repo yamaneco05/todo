@@ -182,7 +182,11 @@ class TodoController {
             header( "Location: ../error/404.php;" );
             return;
         }
-        $executedTodo = $todo->executed($todoId);
+        //userId取得
+        $todo = new Todo;
+        $todoInfo = $todo->findById($todoId);
+        $userId = $todoInfo['user_id'];
+        $executedTodo = $todo->executed($todoId, $userId);
         
         //削除できているか確認
         $executedTodo = $todo->isExistById($todoId);

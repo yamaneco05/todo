@@ -1,3 +1,16 @@
+<?php
+require_once '/var/www/html/app/validation/LoginValidation.php';
+require_once '/var/www/html/app/controller/LoginController.php';
+
+session_start();
+if ( !empty($_SESSION['error']) ) {
+  	$errors = $_SESSION['error'];
+	$page_flag = 1;
+	$_SESSION['error'] = array();  //セッションのエラーメッセージ削除
+}
+
+?>
+
 <!DOCTYPE>
 <html lang="ja">
 <head>
@@ -8,6 +21,19 @@
 
 <body>
 	<h1>ログインする</h1>
+
+	<?php if( $page_flag === 1 ): ?>
+		
+		<?php foreach ($errors as $error): ?>
+
+			<p><?php echo $error; ?></p>
+		
+		<?php endforeach; ?>
+		
+    	<?php $_SESSION = array(); session_destroy();?>
+
+		<button class="button" onclick="history.back()">戻る</button>
+    <?php else: ?>
 
     <div class="element_wrap" id="c1">
 		<ul id="c2">
@@ -26,6 +52,6 @@
 			</form>
 		</ul>
 	</div>
-		
+	<?php endif; ?>	
 </body>
 </html>

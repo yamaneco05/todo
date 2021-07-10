@@ -10,12 +10,17 @@ $response = array();
 if($todoId) {
     $response['todo_id'] = 'success';
     
-    //deletedに日付を入れステータス変更
+    //userId取得
     $todo = new Todo;
-    $executedTodo = $todo->executed($todoId);
+    $todoInfo = $todo->findById($todoId);
+    $userId = $todoInfo['user_id'];
+
+    //deletedに日付を入れステータス変更
+    $executedTodo = $todo->executed($todoId, $userId);
+
+    //実行済みリスト出力
     $controller = new TodoController;
-    $todos = array();
-    $todos = $controller->index();
+    $todos = $controller->index($userId);
 
 } else {
     $response['todo_id'] = 'fail';
