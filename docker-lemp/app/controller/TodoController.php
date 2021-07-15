@@ -1,6 +1,7 @@
 <?php
 require_once '/var/www/html/app/config/database.php';
 require_once '/var/www/html/app/model/Todo.php';
+require_once '/var/www/html/app/model/User.php';
 require_once '/var/www/html/app/controller/TodoController.php';
 require_once '/var/www/html/app/validation/TodoValidation.php';
 
@@ -47,6 +48,7 @@ class TodoController {
     public function createArray() {
 
         //POSTパラメータ取得
+        $userId = $_POST['user_id'];
         $todoId = $_POST['id'];
         $title = $_POST['title'];
         $detail = $_POST['detail'];
@@ -55,6 +57,7 @@ class TodoController {
         //バリデーションチェック用配列
         $data = array();
         $data = array(
+            "user_id" => $userId,
             "id" => $todoId,
             "title" => $title,
             "detail" => $detail,

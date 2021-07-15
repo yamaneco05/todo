@@ -1,5 +1,6 @@
 <?php
 require_once '/var/www/html/app/model/Todo.php';
+require_once '/var/www/html/app/model/User.php';
 require_once '/var/www/html/app/validation/LoginValidation.php';
 
 class LoginController {
@@ -13,14 +14,33 @@ class LoginController {
 
     public function login() {
 
-        //バリデーションチェック
+        //POSTメッセージでなければ入力画面へリダイレクトする
+        if($_SERVER["REQUEST_METHOD"] != "POST"){
+            header( "Location: login.php" );
+            exit();
+        }
 
-        $data =  $this->loginConfirm();
+        //配列とID取得
+        $data = $this->loginCreateArray();
+
+        //ここでバリデーションクラスのcheckメソッドを呼ぶ
+        $validation = new LoginValidation;
+        $validation->setData($data); 
+        $check = $validation->check();
+        
+        //もしチェックがNGなら、再度、入力画面にリダイレクトする
+        if ( $check === false ) {
+            session_start();
+                        
+            $_SESSION['error'] = $validation->getErrorMessages(); 
+            header( "Location: login.php" );
+            exit();
+        }
 
         $mail = $data['mail'];
         $enterPassword = $data['password'];
 
-        $user = new Todo;
+        $user = new User;
         $userInfo = $user->findByMail($mail);
 
         $password = $userInfo['password'];
@@ -36,33 +56,7 @@ class LoginController {
         return true;
     }
 
-    public function loginConfirm() {
-
-        //配列とID取得
-        $data = $this->loginCreateArray();
-
-        //ここでバリデーションクラスのcheckメソッドを呼ぶ
-        $validation = new LoginValidation;
-        $validation->setData($data); 
-        $check = $validation->check();
-
-        //もしチェックがNGなら、再度、入力画面にリダイレクトする
-		if ( $check === false ) {
-            session_start();
-                
-            $_SESSION['error'] = $validation->getErrorMessages(); 
-            header( "Location: login.php" );
-            exit();
-        }
-        return $data;
-    }
-
     public function loginCreateArray() {
-        //POSTメッセージでなければ入力画面へリダイレクトする
-        if($_SERVER["REQUEST_METHOD"] != "POST"){
-            header( "Location: login.php" );
-            exit();
-        }
 
         //POSTパラメータ取得
         $mail = $_POST['mail'];

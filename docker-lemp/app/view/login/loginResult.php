@@ -7,7 +7,7 @@ $login = new LoginController;
 $userInfo = $login->login();
 
 if ( empty($_SESSION['userInfo']) ) {
-	$page_flag = 1;
+	header( "Location: login.php" );
 }
 $userInfo = $_SESSION['userInfo'];
 $name = $userInfo['name'];
@@ -23,14 +23,7 @@ $name = $userInfo['name'];
 </head>
 
 <body>
- 	<?php if( $page_flag === 1 ): ?>
-		
-			<p>パスワードが違います。</p>
-			<p>戻るボタンで戻り、正しいパスワードを入力してください。</p>
-				
-		<button class="button" onclick="history.back()">戻る</button>
-    
-		<?php else: ?>
+
 	<h1>ログインしました</h1>
 
 	<p>ようこそ！<?php echo $name; ?>さん</p>
@@ -40,6 +33,6 @@ $name = $userInfo['name'];
 
 	<a href="/view/todoList/executed.php" class="button">実行済みリストへ</a><br>
 	<a href="/view/todoList/new.php" class="button">タスクを追加する</a>
-	<?php endif; ?>
+
 </body>
 </html>

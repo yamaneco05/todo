@@ -63,23 +63,6 @@ class Todo {
         return $todo;
     }
 
-    public function findByMail($mail) {
-
-        try {
-            $db = new PDO(DSH, USER, PASSWORD);
-            $sql = "SELECT * FROM users WHERE mail = '$mail'";
-
-            $stmt = $db->prepare($sql);
-            $stmt->execute();
-            $user = $stmt->fetch(PDO::FETCH_ASSOC);
-          
-        } catch (PDOException $e) {
-            print ("Error:" .$e->getMessage());
-            exit;
-        }
-        return $user;
-    }
-
     public function isExistById($todoId) {
 
         $db = new PDO(DSH, USER, PASSWORD);
@@ -109,10 +92,10 @@ class Todo {
                     detail, 
                     deadline_at, 
                     created_at, updated_at, deleted_at)
-                    VALUES (1, 
-                    '" . $this->getData()['title'] . "', 
-                    '" . $this->getData()['detail'] . "', 
-                    '" . $this->getData()['deadline_at'] ."', 
+                    VALUES ('" . $this->data['user_id'] . "', 
+                    '" . $this->data['title'] . "', 
+                    '" . $this->data['detail'] . "', 
+                    '" . $this->data['deadline_at'] ."', 
                     now(), now(), '2021-01-01')";
 
             $stmt = $db->prepare($sql);

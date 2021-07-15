@@ -37,7 +37,7 @@ if ( !empty($_SESSION['error']) ) {
 		
 		<?php endforeach; ?>
 		
-    	<?php $_SESSION = array(); session_destroy();?>
+    	<?php //$_SESSION = array(); session_destroy();?>
 
 		<button class="button" onclick="history.back()">戻る</button>
     <?php else: ?>
@@ -47,7 +47,7 @@ if ( !empty($_SESSION['error']) ) {
 			<ul id="c2">
 				<li>
 					ユーザーID : <input type="hidden" name="user_id" value="<?php echo $userInfo['user_id']; ?>"/>	
-					<?php echo $userId; ?></li>
+					<?php echo $userInfo['user_id']; ?></li>
 				
 				<li> 
 					タスク : <input type="text" name="title" /><br />

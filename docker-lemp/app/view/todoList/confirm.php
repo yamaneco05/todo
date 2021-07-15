@@ -1,6 +1,10 @@
 <?php
 require_once '/var/www/html/app/controller/TodoController.php';
 require_once '/var/www/html/app/validation/TodoValidation.php';
+if ( !empty($_SESSION['userInfo']) ) {
+	$userInfo = $_SESSION['userInfo'];
+	echo $userInfo;
+}
 $controller = new TodoController;
 $params = $controller->confirm();
 ?>
@@ -20,6 +24,11 @@ $params = $controller->confirm();
     
     <div class="element_wrap" id="c1">
 		<ul id="c2">
+			<li>ユーザーID : <?php echo $_POST['user_id']; ?>
+			<input type="hidden" name="user_id" value="<?php echo $_POST['user_id']; ?>" />
+				
+			</li>
+
 			<li>タスク : <?php echo $_POST['title']; ?>
 			<input type="hidden" name="title" value="<?php echo $_POST['title']; ?>" />
 				
