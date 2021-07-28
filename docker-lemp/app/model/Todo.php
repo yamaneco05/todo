@@ -29,11 +29,11 @@ class Todo {
         return $todos;
     }
 
-    public function findExecuted() {
+    public function findExecuted($userId) {
 
         try {
             $db = new PDO(DSH, USER, PASSWORD);
-            $sql = "SELECT * FROM todos WHERE user_id = 1 && deleted_at != '2021-01-01 00:00:00'";
+            $sql = "SELECT * FROM todos WHERE user_id = $userId && deleted_at != '2021-01-01 00:00:00'";
             
             $stmt = $db->prepare($sql);
             $stmt->execute();
@@ -63,10 +63,10 @@ class Todo {
         return $todo;
     }
 
-    public function isExistById($todoId) {
+    public function isExistById($todoId, $userId) {
 
         $db = new PDO(DSH, USER, PASSWORD);
-        $sql = "SELECT * FROM todos WHERE id = $todoId && user_id = 1";
+        $sql = "SELECT * FROM todos WHERE id = $todoId && user_id = $userId";
         
         $stmt = $db->prepare($sql);
         $stmt->execute();
@@ -92,7 +92,7 @@ class Todo {
                     detail, 
                     deadline_at, 
                     created_at, updated_at, deleted_at)
-                    VALUES ('" . $this->data['user_id'] . "', 
+                    VALUES ('" . $this->getData()['user_id'] . "', 
                     '" . $this->data['title'] . "', 
                     '" . $this->data['detail'] . "', 
                     '" . $this->data['deadline_at'] ."', 
@@ -168,7 +168,7 @@ class Todo {
         return $todo;
     }
 
-    public function delete($todoId) {
+    public function delete($todoId, $userId) {
         try {
             $db = new PDO(DSH, USER, PASSWORD);
             //ネイティブのプリペアドステートメントを使う
@@ -180,7 +180,7 @@ class Todo {
 	        $db->beginTransaction();
 
             //該当データを削除
-            $sql = "DELETE FROM todos WHERE id = $todoId && user_id = 1";
+            $sql = "DELETE FROM todos WHERE id = $todoId && user_id = $userId";
             $db->exec($sql);
 
             //トランザクション完了（コミット）

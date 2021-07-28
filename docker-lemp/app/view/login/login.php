@@ -48,7 +48,10 @@ if ( !empty($_SESSION['error']) ) {
 			  でログインできます
 			</li>
 
-			<input type="submit" class="button" value="ログインする" />
+			<input type="submit" class="button" value="ログインする" /><br><br>
+			
+			<a href="/view/createUser/createUserIndex.php" class="button">ユーザーの新規登録</a>
+
 			</form>
 		</ul>
 	</div>

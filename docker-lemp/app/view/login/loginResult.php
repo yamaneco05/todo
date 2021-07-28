@@ -1,17 +1,22 @@
 <?php
 require_once '/var/www/html/app/controller/LoginController.php';
 require_once '/var/www/html/app/model/Todo.php';
+require_once '/var/www/html/app/model/User.php';
 require_once '/var/www/html/app/validation/LoginValidation.php';
 
 $login = new LoginController;
 $userInfo = $login->login();
 
-if ( empty($_SESSION['userInfo']) ) {
-	header( "Location: login.php" );
+session_start();
+if ( !empty($_SESSION['userInfo']) ) {
+  	$userInfo = $_SESSION['userInfo'];
 }
-$userInfo = $_SESSION['userInfo'];
+
 $name = $userInfo['name'];
 
+// if ( empty($_SESSION['userInfo']) ) {
+// 	header( "Location: login.php" );
+// }
 ?>
 
 <!DOCTYPE>

@@ -28,5 +28,28 @@ class User{
         return $user;
     }
 
+    public function hashPass(){
+
+        //パスワードの暗号化
+        $hash_pass = password_hash($_POST['pass'], PASSWORD_DEFAULT);
+
+        try {
+            // データベースへの接続開始
+            $db = new PDO(DSH, USER, PASSWORD);
+
+            // bindParamを利用したSQL文の実行
+            $sql = 'INSERT INTO users (id, pass) 
+                    VALUES(:id, :pass);';
+            $stmt = $db->prepare($sql);
+            $stmt->bindParam(':id', $_POST['id']);
+            $stmt->bindParam(':pass', $hash_pass);
+            $stmt->execute();
+
+            // データベースへの接続に失敗した場合
+        } catch (PDOException $e) {
+            print('接続失敗:' . $e->getMessage());
+            die();
+        }# code...
+    }
 
 }

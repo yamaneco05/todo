@@ -7,7 +7,6 @@ require_once '/var/www/html/app/validation/TodoValidation.php';
 if ( !empty($_SESSION['userInfo']) ) {
 	$userInfo = $_SESSION['userInfo'];
 }
-$userId = $_GET['user_id'];
 
 session_start();
 if ( !empty($_SESSION['error']) ) {
@@ -46,8 +45,8 @@ if ( !empty($_SESSION['error']) ) {
 		<div class="c1">
 			<ul id="c2">
 				<li>
-					ユーザーID : <input type="hidden" name="user_id" value="<?php echo $userInfo['user_id']; ?>"/>	
-					<?php echo $userInfo['user_id']; ?></li>
+					ユーザーID : <input type="hidden" name="user_id" value="<?php echo $_GET['user_id']; ?>"/>	
+					<?php echo $_GET['user_id']; ?></li>
 				
 				<li> 
 					タスク : <input type="text" name="title" /><br />

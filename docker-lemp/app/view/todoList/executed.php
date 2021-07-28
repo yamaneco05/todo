@@ -1,5 +1,6 @@
 <?php
 require_once '/var/www/html/app/controller/TodoController.php'; 
+session_start();
 if ( !empty($_SESSION['userInfo']) ) {
 	$userInfo = $_SESSION['userInfo'];
 }
@@ -7,8 +8,7 @@ if ( !empty($_SESSION['userInfo']) ) {
 $userId = $userInfo['id'];
 
 $controller = new TodoController;
-$todos = array();
-$todos = $controller->executedList();
+$todos = $controller->executedList($userId);
 ?>
 
 <!DOCTYPE>
@@ -22,7 +22,7 @@ $todos = $controller->executedList();
 <body>
   	<h1>実行済リスト</h1>
 
-  	<a href="/view/todoList/new.php" class="button">新しいタスクを追加する</a><br>
+  	<a href="/view/todoList/new.php?user_id=<?php echo $userId; ?>" class="button">新しいタスクを追加する</a><br>
 	<a href="/view/todoList/index.php" class="button">TODOリストへ</a><br>
 	<a href="/view/login/login.php" class="button">ログアウト</a>
 
@@ -44,9 +44,9 @@ $todos = $controller->executedList();
 
 				<li>詳細 : <?php echo $todo['detail']; ?></li>
 				
-				<li>しめきり : <?php echo $todo['deadline_at']?></li>
+				<li>しめきり : <?php echo $todo['deadline_at']; ?></li>
 
-				<li>実行日 : <?php echo $todo['deleted_at']?></li>
+				<li>実行日 : <?php echo $todo['deleted_at']; ?></li>
 
 			</ul>
 		

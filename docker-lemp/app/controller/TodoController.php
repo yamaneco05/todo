@@ -22,22 +22,22 @@ class TodoController {
         return $todos;
     }
 
-    public function executedList() {
+    public function executedList($userId) {
         $todo = new Todo;
-        $todos = $todo->findExecuted();
+        $todos = $todo->findExecuted($userId);
 
         return $todos;
     }
 
-    public function detail() {
+    public function detail($userId) {
         //GETパラメータ取得
         $todoId = $_GET['todo_id'];
         
         //'todo_id'に該当するレコードの存在確認
         $todo = new Todo;
-        $isExist = $todo->isExistById($todoId);
+        $isExist = $todo->isExistById($todoId, $userId);
         if ( $isExist === false ) {
-            header( "Location: ../error/404.php;" );
+            header( "Location: ../error/404.php" );
             return;
         }
         $todo = $todo->findById($todoId);
@@ -129,7 +129,7 @@ class TodoController {
             session_start();
                    
             $_SESSION['error'] = $validation->getErrorMessages(); 
-            header( "Location: edit.php?todo_id=$todoId;" );
+            header( "Location: edit.php?todo_id=$todoId" );
             exit();
         }
         return true;
@@ -147,42 +147,42 @@ class TodoController {
         $editTodo = $todo->update();
 
         if ( $editTodo === false ) {
-            header( "Location: edit.php?todo_id=$todoId;" );
+            header( "Location: edit.php?todo_id=$todoId" );
             exit();
         }        
         return $editTodo;
     }
 
-    public function deleteComplete($todoId) {
+    public function deleteComplete($todoId, $userId) {
 
         //該当データが存在するのか確認
         $todo = new Todo;
-        $isExist = $todo->isExistById($todoId);
+        $isExist = $todo->isExistById($todoId, $userId);
         if ( $isExist === false ) {
-            header( "Location: ../error/404.php;" );
+            header( "Location: ../../view/error/404.php" );
             return;
         }
-        $todo->delete($todoId);
+        $todo->delete($todoId, $userId);
         
         //削除できているか確認
-        $isExsist = $todo->isExistById($todoId);
+        $isExsist = $todo->isExistById($todoId, $userId);
         if ( $isExsist === true ) {
-            header( "Location: ../error/404.php;" );
+            header( "Location: ../../view/error/404.php" );
             return;
         }
         return true;
     }
 
-    public function executed() {
+    public function executed($userId) {
         
         //GETパラメータ取得
         $todoId = $_GET['todo_id'];
 
         //該当データが存在するのか確認
         $todo = new Todo;
-        $isExist = $todo->isExistById($todoId);
+        $isExist = $todo->isExistById($todoId, $userId);
         if ( $isExist === false ) {
-            header( "Location: ../error/404.php;" );
+            header( "Location: ../../view/error/404.php" );
             return;
         }
         //userId取得
@@ -192,9 +192,9 @@ class TodoController {
         $executedTodo = $todo->executed($todoId, $userId);
         
         //削除できているか確認
-        $executedTodo = $todo->isExistById($todoId);
+        $executedTodo = $todo->isExistById($todoId, $userId);
         if ( $executedTodo === true ) {
-            header( "Location: ../error/404.php;" );
+            header( "Location: ../../view/error/404.php" );
             return;
         }        
         return $todoId;

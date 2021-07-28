@@ -40,16 +40,16 @@ if ( empty($_SESSION['userInfo']) ) {
 				<li><ul class="side">
 					<li>ID : <?php echo $todo['id']; ?></li>
 					
-					<li><button type="submit" name="delete-botton" value="<?php echo $todo['id']; ?>"
+					<li><button type="submit" name="delete-botton" value="<?php echo $todo['id'];?>"
 					style="position: relative; left: 12%; top: 0px;">削除</button>
 					</li>
 				</ul></li>
 
-				<li><input type="checkbox" name="status-checkbox" value="<?php echo $todo['id']; ?>" />
+				<li><input type="checkbox" name="status-checkbox" value="<?php echo $todo['id'];?>" />
 				タスク : <a href="/view/todoList/detail.php?todo_id=<?php echo $todo['id']; ?>">
 				<?php echo $todo['title']; ?></a></li>
 
-				<li>詳細 : <?php echo $todo['detail']; ?></li>
+				<li>詳細 : <?php echo $todo['detail'] ?></li>
 				<li>しめきり : <?php echo $todo['deadline_at']?></li>
 			</ul>
 		
@@ -102,7 +102,7 @@ if ( empty($_SESSION['userInfo']) ) {
 			}).done(function (data) { //Ajax通信に成功したときの処理
 				$("#ajax").html(data);
 				console.log("success", data);
-				window.location.href = 'index.php';
+				window.location.href = '/view/todoList/index.php';
 			}).fail(function (data) { //Ajax通信に失敗したときの処理
 				console.log("fail", data);
 			}).always(function (data) { //処理が完了した場合の処理

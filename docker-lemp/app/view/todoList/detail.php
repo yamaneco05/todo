@@ -1,8 +1,11 @@
 <?php 
 require_once '/var/www/html/app/controller/TodoController.php'; 
 require_once '/var/www/html/app/model/Todo.php';
+if ( !empty($_SESSION['userInfo']) ) {
+	$userInfo = $_SESSION['userInfo'];
+}
 $controller = new TodoController;
-$todo = $controller->detail();
+$todo = $controller->detail($userId);
 ?>
 
 <!DOCTYPE html>

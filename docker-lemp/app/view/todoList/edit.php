@@ -2,8 +2,6 @@
 require_once '/var/www/html/app/model/Todo.php';
 require_once '/var/www/html/app/controller/TodoController.php';
 require_once '/var/www/html/app/validation/TodoValidation.php';
-$controller = new TodoController;
-$todo = $controller->detail();
 
 session_start();
 if ( !empty($_SESSION['error']) ) {
@@ -11,6 +9,14 @@ if ( !empty($_SESSION['error']) ) {
 	$page_flag = 1;
 	$_SESSION['error'] = array();  //セッションのエラーメッセージ削除
 }
+
+if ( !empty($_SESSION['userInfo']) ) {
+	$userInfo = $_SESSION['userInfo'];
+}
+$userId = $userInfo['id'];
+
+$controller = new TodoController;
+$todo = $controller->detail($userId);
 ?>
 
 <!DOCTYPE>
@@ -41,6 +47,10 @@ if ( !empty($_SESSION['error']) ) {
   	<form action="/view/todoList/editConfirm.php" method="POST">
     <div class="element_wrap" id="c1">
 		<ul id="c2">
+			<li>ユーザーID:<?php echo $todo['id']; ?>
+			<input type="hidden" name="id" value="<?php echo $todo['id']; ?>">
+			</li>
+
 			<li>ID:<?php echo $todo['id']; ?>
 			<input type="hidden" name="id" value="<?php echo $todo['id']; ?>">
 			</li>

@@ -20,8 +20,15 @@ class LoginController {
             exit();
         }
 
-        //配列とID取得
-        $data = $this->loginCreateArray();
+        //POSTパラメータ取得
+        $mail = $_POST['mail'];
+        $enterpassword = $_POST['password'];
+        
+        //バリデーションチェック用配列
+        $data = array(
+            "mail" => $mail,
+            "password" => $enterpassword,
+        );
 
         //ここでバリデーションクラスのcheckメソッドを呼ぶ
         $validation = new LoginValidation;
@@ -37,37 +44,39 @@ class LoginController {
             exit();
         }
 
+        //バリデーションを通過した正常な値を定義
+        $data = $validation->getData();
         $mail = $data['mail'];
         $enterPassword = $data['password'];
 
         $user = new User;
         $userInfo = $user->findByMail($mail);
 
+        //もし$userInfoが空なら、入力画面にリダイレクトする
+        if ( $userInfo == null ) {
+            session_start();
+                                
+            $_SESSION['error'] = 'ユーザー情報を取得できませんでした';
+            header( "Location: login.php" );
+            exit();
+        }
         $password = $userInfo['password'];
 
-        if ( $password == $enterPassword ) {
-            
-                session_start();
-                //$_SESSION['userInfo'] = array();  //セッションの内容削除
-       
-                $_SESSION['userInfo'] = $user->findByMail($mail); 
-                return;
+        if ( $password ==! $enterPassword ) {
+            echo "パスワードが一致しません";
+            header( "Location: login.php" );
+            exit();
         }
-        return true;
+        $pass_hash = password_hash($password, PASSWORD_DEFAULT);
+        var_dump(password_verify($password, $pass_hash));
+
+        $userInfo['password'] = $pass_hash;
+        print_r($userInfo);
+
+        session_start();
+        //$_SESSION['userInfo'] = array();  //セッションの内容削除
+        $_SESSION['userInfo'] = $userInfo;
+        return;
     }
 
-    public function loginCreateArray() {
-
-        //POSTパラメータ取得
-        $mail = $_POST['mail'];
-        $password = $_POST['password'];
-
-        //バリデーションチェック用配列
-        //$data = array();
-        $data = array(
-            "mail" => $mail,
-            "password" => $password,
-            );
-        return $data;
-    }
 }

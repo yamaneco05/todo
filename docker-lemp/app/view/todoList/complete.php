@@ -32,7 +32,7 @@ $todo = $controller->register();
 		
 	<p>登録しました。</p>
 
-	<a href="/view/todoList/new.php" class="button">タスクを追加する</a><br>
+	<a href="/view/todoList/new.php?user_id=<?php echo $todo['user_id'] ?>" class="button">タスクを追加する</a><br>
 	<a href="/view/todoList/index.php" class="button">タスク一覧へ</a>
 </body>
 </html>
